@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DanVissuals — Editor de Video</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Roboto:wght@300;400;500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --ink:      #080808;
+      --surface:  #0e0e0e;
+      --panel:    #141414;
+      --panel2:   #1a1a1a;
+      --border:   #252525;
+      --border2:  #333;
+      --muted:    #555;
+      --mid:      #888;
+      --light:    #ccc;
+      --white:    #edeae4;
+      --gold:     #b8976a;
+      --gold-dim: #6b5538;
+
+      --f-display: 'Cinzel', Georgia, serif;
+      --f-body:    'Roboto', system-ui, sans-serif;
+      --f-mono:    'DM Mono', monospace;
+
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--ink);
+      color: var(--light);
+      font-family: var(--f-body);
+      font-weight: 300;
+      font-size: 15px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── GRAIN OVERLAY ── */
+    .grain {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.035;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      mix-blend-mode: screen;
+    }
+
+    /* ── TEXTURES ── */
+    .tex-lines {
+      background-image: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 3px,
+        rgba(255,255,255,0.012) 3px,
+        rgba(255,255,255,0.012) 4px
+      );
+    }
+    .tex-dots {
+      background-image: radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
+    .tex-cross {
+      background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.4rem 3rem;
+      transition: background 0.4s, border-color 0.4s;
+      border-bottom: 1px solid transparent;
+    }
+    nav.scrolled {
+      background: rgba(8,8,8,0.94);
+      border-color: var(--border);
+      backdrop-filter: blur(16px);
+    }
+    .nav-logo {
+      font-family: var(--f-display);
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: var(--white);
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+    .nav-logo span { color: var(--gold); }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      font-family: var(--f-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 8rem 3rem 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 65% 50%, rgba(90,65,30,0.18) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 60% at 10% 80%, rgba(20,15,8,0.5) 0%, transparent 60%),
+        #080808;
+      z-index: 0;
+    }
+    .hero-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+      opacity: 0.38;
+    }
+    .hero-video-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background:
+        linear-gradient(180deg, rgba(8,8,8,0.55) 0%, rgba(8,8,8,0.35) 40%, rgba(8,8,8,0.85) 100%),
+        radial-gradient(ellipse 60% 50% at 65% 40%, rgba(90,65,30,0.12) 0%, transparent 70%);
+    }
+    /* Horizontal letterbox lines */
+    .hero-bar-top, .hero-bar-bottom {
+      position: absolute;
+      left: 0; right: 0;
+      height: 80px;
+      background: #000;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .hero-bar-top { top: 0; }
+    .hero-bar-bottom { bottom: 0; }
+
+    .hero-content {
+      position: relative;
+      z-index: 3;
+      max-width: 900px;
+    }
+    .hero-tag {
+      font-family: var(--f-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .hero-tag::after {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 1px;
+      background: var(--gold-dim);
+    }
+    .hero-title {
+      font-family: var(--f-display);
+      font-size: clamp(2.2rem, 5.5vw, 4.8rem);
+      font-weight: 600;
+      line-height: 1.25;
+      letter-spacing: 0.01em;
+      color: var(--white);
+      margin-bottom: 2rem;
+      text-transform: uppercase;
+    }
+    .hero-title .line2 {
+      display: block;
+      color: var(--gold);
+      font-weight: 400;
+      font-size: 0.7em;
+      letter-spacing: 0.06em;
+      margin-top: 0.3em;
+    }
+    .hero-sub {
+      font-size: 0.88rem;
+      color: var(--muted);
+      max-width: 440px;
+      line-height: 1.9;
+      margin-bottom: 2.5rem;
+    }
+    .hero-cta { display: flex; gap: 1.5rem; align-items: center; }
+    .btn {
+      display: inline-block;
+      font-family: var(--f-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 0.8rem 2rem;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      transition: background 0.2s, color 0.2s;
+    }
+    .btn:hover { background: var(--gold); color: #000; }
+    .btn-ghost {
+      font-family: var(--f-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .btn-ghost:hover { color: var(--white); }
+
+    /* ── CREDIBILITY ── */
+    #credibility {
+      display: flex;
+      gap: 0;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      overflow-x: auto;
+    }
+    .cred-item {
+      flex: 1;
+      min-width: 160px;
+      padding: 2rem 2.5rem;
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+    .cred-item:last-child { border-right: none; }
+    .cred-num {
+      font-family: var(--f-display);
+      font-size: 1.6rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .cred-label {
+      font-family: var(--f-mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ── SHARED ── */
+    section { padding: 7rem 3rem; }
+    .eyebrow {
+      font-family: var(--f-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .eyebrow::before {
+      content: '';
+      display: block;
+      width: 20px;
+      height: 1px;
+      background: var(--gold-dim);
+    }
+    .section-title {
+      font-family: var(--f-display);
+      font-size: clamp(1.5rem, 2.6vw, 2.3rem);
+      font-weight: 600;
+      color: var(--white);
+      line-height: 1.4;
+      letter-spacing: 0.02em;
+      margin-bottom: 1.5rem;
+      text-transform: uppercase;
+    }
+    .section-title em {
+      font-style: normal;
+      color: var(--gold);
+      font-weight: 400;
+    }
+
+    /* ── ABOUT ── */
+    #about {
+      background: var(--surface);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: start;
+    }
+    .about-text p {
+      color: var(--mid);
+      margin-bottom: 1.1rem;
+      font-size: 0.9rem;
+      max-width: 500px;
+    }
+    .about-text p strong { color: var(--light); font-weight: 500; }
+
+    .about-pillars {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      margin-top: 0.5rem;
+    }
+    .pillar {
+      background: var(--panel);
+      padding: 1.8rem 1.5rem;
+      transition: background 0.2s;
+    }
+    .pillar:hover { background: var(--panel2); }
+    .pillar-icon { font-size: 1.2rem; margin-bottom: 0.8rem; }
+    .pillar-title {
+      font-family: var(--f-display);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .pillar-desc { font-size: 0.78rem; color: var(--muted); line-height: 1.7; }
+
+    /* ── TOOLS ── */
+    #tools {
+      background: var(--ink);
+      padding: 7rem 3rem;
+    }
+    .tools-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      margin-top: 3rem;
+    }
+    .tools-col-title {
+      font-family: var(--f-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.8rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .tools-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+    .tool-tag {
+      font-family: var(--f-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      color: var(--mid);
+      border: 1px solid var(--border);
+      padding: 0.4rem 0.9rem;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .tool-tag:hover { border-color: var(--gold-dim); color: var(--light); }
+    .tool-tag.ai {
+      color: var(--gold-dim);
+      border-color: var(--gold-dim);
+    }
+    .tool-tag.ai:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* ── PORTFOLIO ── */
+    #portfolio { background: var(--surface); }
+    .portfolio-filter {
+      display: flex;
+      gap: 0;
+      margin-bottom: 2.5rem;
+      border: 1px solid var(--border);
+      width: fit-content;
+    }
+    .filter-btn {
+      font-family: var(--f-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: none;
+      border: none;
+      border-right: 1px solid var(--border);
+      cursor: pointer;
+      padding: 0.6rem 1.2rem;
+      transition: background 0.2s, color 0.2s;
+    }
+    .filter-btn:last-child { border-right: none; }
+    .filter-btn:hover, .filter-btn.active {
+      background: var(--panel2);
+      color: var(--gold);
+    }
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1px;
+      background: var(--border);
+    }
+    .video-card {
+      background: var(--panel);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.2s;
+    }
+    .video-card:hover { background: var(--panel2); }
+    .video-card.short-card { grid-row: span 1; }
+
+    .thumb-wrap {
+      position: relative;
+      overflow: hidden;
+    }
+    .thumb-wrap img {
+      width: 100%;
+      display: block;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      transition: transform 0.5s var(--ease), opacity 0.3s;
+    }
+    .thumb-wrap.is-short img {
+      aspect-ratio: 9/16;
+    }
+    .video-card:hover .thumb-wrap img { transform: scale(1.04); }
+
+    .play-btn {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0);
+      transition: background 0.3s;
+    }
+    .video-card:hover .play-btn { background: rgba(0,0,0,0.45); }
+    .play-icon {
+      width: 44px;
+      height: 44px;
+      border: 1px solid rgba(255,255,255,0.7);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .video-card:hover .play-icon { opacity: 1; }
+    .play-icon::after {
+      content: '';
+      border-left: 14px solid white;
+      border-top: 8px solid transparent;
+      border-bottom: 8px solid transparent;
+      margin-left: 3px;
+    }
+
+    .video-info { padding: 1rem 1.2rem 1.3rem; }
+    .video-tag {
+      font-family: var(--f-mono);
+      font-size: 0.56rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.3rem;
+    }
+    .video-title {
+      font-family: var(--f-display);
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--white);
+      line-height: 1.4;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    /* Video modal */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.93);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal.open { display: flex; }
+    .modal-inner {
+      position: relative;
+      width: 90vw;
+      max-width: 900px;
+    }
+    .modal-inner.is-short {
+      max-width: 420px;
+    }
+    .modal-ratio {
+      position: relative;
+      padding-bottom: 56.25%;
+    }
+    .modal-inner.is-short .modal-ratio {
+      padding-bottom: 177.78%;
+    }
+    .modal-ratio iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    .modal-close {
+      position: absolute;
+      top: -2.5rem;
+      right: 0;
+      font-family: var(--f-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      background: none;
+      border: none;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .modal-close:hover { color: var(--white); }
+
+    /* ── SERVICES ── */
+    #services {
+      background: var(--ink);
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      margin-top: 3rem;
+    }
+    .service-card {
+      background: var(--panel);
+      padding: 2.5rem 2rem;
+      transition: background 0.2s;
+    }
+    .service-card:hover { background: var(--panel2); }
+    .service-num {
+      font-family: var(--f-mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.15em;
+      color: var(--gold-dim);
+      margin-bottom: 1.2rem;
+    }
+    .service-name {
+      font-family: var(--f-display);
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 0.6rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .service-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.8; }
+
+    /* ── CONTACT ── */
+    #contact {
+      background: var(--surface);
+      text-align: center;
+      padding: 9rem 3rem;
+    }
+    #contact .section-title { font-size: clamp(2.5rem, 5vw, 4.5rem); }
+    #contact .section-title em { display: block; }
+    .contact-sub {
+      color: var(--muted);
+      font-size: 0.87rem;
+      margin: 1rem 0 3.5rem;
+    }
+    .contact-links {
+      display: flex;
+      gap: 2px;
+      justify-content: center;
+      flex-wrap: wrap;
+      background: var(--border);
+      width: fit-content;
+      margin: 0 auto;
+    }
+    .contact-link {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.3rem;
+      text-decoration: none;
+      padding: 1.5rem 2rem;
+      background: var(--panel);
+      transition: background 0.2s;
+    }
+    .contact-link:hover { background: var(--panel2); }
+    .contact-link-label {
+      font-family: var(--f-mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .contact-link-value {
+      font-family: var(--f-display);
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--gold);
+      letter-spacing: 0.03em;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--ink);
+    }
+    footer span {
+      font-family: var(--f-mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+    }
+
+    /* ── FADE IN ── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+    }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      #hero { padding: 7rem 1.5rem 4rem; }
+      section { padding: 5rem 1.5rem; }
+      #about { grid-template-columns: 1fr; gap: 3rem; }
+      .tools-wrapper { grid-template-columns: 1fr; gap: 2.5rem; }
+      .about-pillars { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+      #contact { padding: 6rem 1.5rem; }
+      .contact-links { flex-direction: column; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="grain"></div>
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+  <div class="modal-inner" id="modal-inner">
+    <button class="modal-close" id="modal-close">✕ cerrar</button>
+    <div class="modal-ratio">
+      <iframe id="modal-iframe" src="" allowfullscreen allow="autoplay"></iframe>
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">Dan<span>Vissuals</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">Sobre mí</a></li>
+    <li><a href="#portfolio">Portafolio</a></li>
+    <li><a href="#tools">Herramientas</a></li>
+    <li><a href="#services">Servicios</a></li>
+    <li><a href="#contact">Contacto</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <video class="hero-video" autoplay muted loop playsinline poster="">
+    <source src="hero-bg.mp4" type="video/mp4">
+  </video>
+  <div class="hero-video-overlay"></div>
+  <div class="hero-bar-top"></div>
+  <div class="hero-bar-bottom"></div>
+  <div class="hero-content">
+    <p class="hero-tag">Editor de video · Storytelling visual</p>
+    <h1 class="hero-title">
+      Transformo ideas
+      <span class="line2">en microcine.</span>
+    </h1>
+    <p class="hero-sub">
+      Documental, contenido de marca, redes sociales. El formato cambia. La intención narrativa, no.
+    </p>
+    <div class="hero-cta">
+      <a href="https://wa.link/7byln1" target="_blank" rel="noopener" class="btn">Cotizar por WhatsApp</a>
+      <a href="#portfolio" class="btn-ghost">Ver portafolio →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CREDIBILITY -->
+<div id="credibility">
+  <div class="cred-item">
+    <span class="cred-num">800K+</span>
+    <span class="cred-label">Suscriptores en canales cliente (YouTube)</span>
+  </div>
+  <div class="cred-item">
+    <span class="cred-num">300K+</span>
+    <span class="cred-label">Seguidores en cuentas cliente (Instagram)</span>
+  </div>
+  <div class="cred-item">
+    <span class="cred-num">DaVinci</span>
+    <span class="cred-label">Resolve · Final Cut · Adobe Suite</span>
+  </div>
+  <div class="cred-item">
+    <span class="cred-num">MX</span>
+    <span class="cred-label">Disponible para proyectos remotos</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about" class="tex-cross">
+  <div class="about-text fade-up">
+    <p class="eyebrow">Sobre mí</p>
+    <h2 class="section-title">No solo edito.<br><em>Construyo.</em></h2>
+    <p>
+      Soy Dan. Editor de video con enfoque en <strong>narrativa visual y storytelling</strong>. He trabajado con cuentas de más de 800K suscriptores en YouTube y 300K en Instagram — y lo que me importa en cada proyecto es lo mismo: que el espectador no pueda soltar la pantalla.
+    </p>
+    <p>
+      Me muevo entre dos mundos: el <strong>documental y el contenido para redes</strong>. No los veo como opuestos. Un reel bien construido tiene la misma lógica narrativa que un mini-doc. La diferencia es el tiempo disponible para contar la historia.
+    </p>
+    <p>
+      Trabajo con marcas personales, creadores de contenido y empresas que quieren <strong>dejar de publicar por publicar</strong> y empezar a comunicar algo de verdad.
+    </p>
+  </div>
+  <div class="about-pillars fade-up">
+    <div class="pillar">
+      <div class="pillar-icon">🎬</div>
+      <p class="pillar-title">Documental</p>
+      <p class="pillar-desc">Edición que respeta el ritmo del testimonio. Sin forzar. Sin drama artificial.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-icon">📱</div>
+      <p class="pillar-title">Redes sociales</p>
+      <p class="pillar-desc">Reels y Shorts que retienen. Pensados desde el segundo 0 hasta el último frame.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-icon">🏷️</div>
+      <p class="pillar-title">Marcas personales</p>
+      <p class="pillar-desc">Contenido que construye autoridad. No solo seguidores — audiencia real.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-icon">📈</div>
+      <p class="pillar-title">Contenido de ventas</p>
+      <p class="pillar-desc">Video enfocado en conversión. Storytelling con intención comercial.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="portfolio">
+  <p class="eyebrow fade-up">Portafolio</p>
+  <h2 class="section-title fade-up">El trabajo<br><em>habla solo.</em></h2>
+
+  <div class="portfolio-filter fade-up">
+    <button class="filter-btn active" data-filter="all">Todo</button>
+    <button class="filter-btn" data-filter="largo">Formato largo</button>
+    <button class="filter-btn" data-filter="short">Shorts / Reels</button>
+  </div>
+
+  <div class="video-grid" id="video-grid">
+
+    <div class="video-card fade-up" data-cat="largo" data-id="62eT3NaUznw" data-type="largo">
+      <div class="thumb-wrap">
+        <img src="https://img.youtube.com/vi/62eT3NaUznw/maxresdefault.jpg" alt="Proyecto 01" loading="lazy" onerror="this.src='https://img.youtube.com/vi/62eT3NaUznw/hqdefault.jpg'" />
+        <div class="play-btn"><div class="play-icon"></div></div>
+      </div>
+      <div class="video-info">
+        <p class="video-tag">Formato largo</p>
+        <p class="video-title">Proyecto narrativo 01</p>
+      </div>
+    </div>
+
+    <div class="video-card fade-up" data-cat="largo" data-id="38j_bZJCuec" data-type="largo">
+      <div class="thumb-wrap">
+        <img src="https://img.youtube.com/vi/38j_bZJCuec/maxresdefault.jpg" alt="Proyecto 02" loading="lazy" onerror="this.src='https://img.youtube.com/vi/38j_bZJCuec/hqdefault.jpg'" />
+        <div class="play-btn"><div class="play-icon"></div></div>
+      </div>
+      <div class="video-info">
+        <p class="video-tag">Formato largo</p>
+        <p class="video-title">Proyecto narrativo 02</p>
+      </div>
+    </div>
+
+    <div class="video-card fade-up" data-cat="largo" data-id="PKwwx5peqrA" data-type="largo">
+      <div class="thumb-wrap">
+        <img src="https://img.youtube.com/vi/PKwwx5peqrA/maxresdefault.jpg" alt="Proyecto 03" loading="lazy" onerror="this.src='https://img.youtube.com/vi/PKwwx5peqrA/hqdefault.jpg'" />
+        <div class="play-btn"><div class="play-icon"></div></div>
+      </div>
+      <div class="video-info">
+        <p class="video-tag">Formato largo</p>
+        <p class="video-title">Proyecto narrativo 03</p>
+      </div>
+    </div>
+
+    <div class="video-card fade-up" data-cat="largo" data-id="6xQnto3aNJA" data-type="largo">
+      <div class="thumb-wrap">
+        <img src="https://img.youtube.com/vi/6xQnto3aNJA/maxresdefault.jpg" alt="Proyecto 04" loading="lazy" onerror="this.src='https://img.youtube.com/vi/6xQnto3aNJA/hqdefault.jpg'" />
+        <div class="play-btn"><div class="play-icon"></div></div>
+      </div>
+      <div class="video-info">
+        <p class="video-tag">Formato largo</p>
+        <p class="video-title">Proyecto narrativo 04</p>
+      </div>
+    </div>
+
+    <div class="video-card fade-up" data-cat="short" data-id="7NThTkR0QJ0" data-type="short">
+      <div class="thumb-wrap is-short">
+        <img src="https://img.youtube.com/vi/7NThTkR0QJ0/maxresdefault.jpg" alt="Short 01" loading="lazy" onerror="this.src='https://img.youtube.com/vi/7NThTkR0QJ0/hqdefault.jpg'" />
+        <div class="play-btn"><div class="play-icon"></div></div>
+      </div>
+      <div class="video-info">
+        <p class="video-tag">Short / Reel</p>
+        <p class="video-title">Short 01</p>
+      </div>
+    </div>
+
+    <div class="video-card fade-up" data-cat="short" data-id="MSnbEFQzsX8" data-type="short">
+      <div class="thumb-wrap is-short">
+        <img src="https://img.youtube.com/vi/MSnbEFQzsX8/maxresdefault.jpg" alt="Short 02" loading="lazy" onerror="this.src='https://img.youtube.com/vi/MSnbEFQzsX8/hqdefault.jpg'" />
+        <div class="play-btn"><div class="play-icon"></div></div>
+      </div>
+      <div class="video-info">
+        <p class="video-tag">Short / Reel</p>
+        <p class="video-title">Short 02</p>
+      </div>
+    </div>
+
+    <div class="video-card fade-up" data-cat="short" data-id="ijdIZ8YQBVI" data-type="short">
+      <div class="thumb-wrap is-short">
+        <img src="https://img.youtube.com/vi/ijdIZ8YQBVI/maxresdefault.jpg" alt="Short 03" loading="lazy" onerror="this.src='https://img.youtube.com/vi/ijdIZ8YQBVI/hqdefault.jpg'" />
+        <div class="play-btn"><div class="play-icon"></div></div>
+      </div>
+      <div class="video-info">
+        <p class="video-tag">Short / Reel</p>
+        <p class="video-title">Short 03</p>
+      </div>
+    </div>
+
+    <div class="video-card fade-up" data-cat="short" data-id="-SquHkIb0Es" data-type="short">
+      <div class="thumb-wrap is-short">
+        <img src="https://img.youtube.com/vi/-SquHkIb0Es/maxresdefault.jpg" alt="Short 04" loading="lazy" onerror="this.src='https://img.youtube.com/vi/-SquHkIb0Es/hqdefault.jpg'" />
+        <div class="play-btn"><div class="play-icon"></div></div>
+      </div>
+      <div class="video-info">
+        <p class="video-tag">Short / Reel</p>
+        <p class="video-title">Short 04</p>
+      </div>
+    </div>
+
+    <div class="video-card fade-up" data-cat="short" data-id="eY6Sm4mPa0Q" data-type="short">
+      <div class="thumb-wrap is-short">
+        <img src="https://img.youtube.com/vi/eY6Sm4mPa0Q/maxresdefault.jpg" alt="Short 05" loading="lazy" onerror="this.src='https://img.youtube.com/vi/eY6Sm4mPa0Q/hqdefault.jpg'" />
+        <div class="play-btn"><div class="play-icon"></div></div>
+      </div>
+      <div class="video-info">
+        <p class="video-tag">Short / Reel</p>
+        <p class="video-title">Short 05</p>
+      </div>
+    </div>
+
+    <div class="video-card fade-up" data-cat="short" data-id="4bt6nD3YJCM" data-type="short">
+      <div class="thumb-wrap is-short">
+        <img src="https://img.youtube.com/vi/4bt6nD3YJCM/maxresdefault.jpg" alt="Short 06" loading="lazy" onerror="this.src='https://img.youtube.com/vi/4bt6nD3YJCM/hqdefault.jpg'" />
+        <div class="play-btn"><div class="play-icon"></div></div>
+      </div>
+      <div class="video-info">
+        <p class="video-tag">Short / Reel</p>
+        <p class="video-title">Short 06</p>
+      </div>
+    </div>
+
+    <div class="video-card fade-up" data-cat="short" data-id="XSaW4n5t7sE" data-type="short">
+      <div class="thumb-wrap is-short">
+        <img src="https://img.youtube.com/vi/XSaW4n5t7sE/maxresdefault.jpg" alt="Short 07" loading="lazy" onerror="this.src='https://img.youtube.com/vi/XSaW4n5t7sE/hqdefault.jpg'" />
+        <div class="play-btn"><div class="play-icon"></div></div>
+      </div>
+      <div class="video-info">
+        <p class="video-tag">Short / Reel</p>
+        <p class="video-title">Short 07</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- TOOLS -->
+<section id="tools" class="tex-dots">
+  <p class="eyebrow fade-up">Herramientas</p>
+  <h2 class="section-title fade-up">Con qué<br><em>trabajo.</em></h2>
+
+  <div class="tools-wrapper">
+    <div class="fade-up">
+      <p class="tools-col-title">Software de edición</p>
+      <div class="tools-list">
+        <span class="tool-tag">DaVinci Resolve</span>
+        <span class="tool-tag">Final Cut Pro</span>
+        <span class="tool-tag">After Effects</span>
+        <span class="tool-tag">Premiere Pro</span>
+        <span class="tool-tag">Photoshop</span>
+        <span class="tool-tag">Lightroom</span>
+        <span class="tool-tag">CapCut</span>
+      </div>
+    </div>
+    <div class="fade-up">
+      <p class="tools-col-title">Pipeline de inteligencia artificial</p>
+      <div class="tools-list">
+        <span class="tool-tag ai">Higgsfield</span>
+        <span class="tool-tag ai">Magnific</span>
+        <span class="tool-tag ai">Nano Banana</span>
+        <span class="tool-tag ai">Kling 3.0</span>
+        <span class="tool-tag ai">Seedance</span>
+        <span class="tool-tag ai">Veo 3</span>
+        <span class="tool-tag ai">Runway</span>
+        <span class="tool-tag ai">HeyGen</span>
+        <span class="tool-tag ai">ElevenLabs</span>
+        <span class="tool-tag ai">Grok</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" class="tex-lines">
+  <p class="eyebrow fade-up">Servicios</p>
+  <h2 class="section-title fade-up">Lo que<br><em>ofrezco.</em></h2>
+  <div class="services-grid">
+    <div class="service-card fade-up">
+      <p class="service-num">01</p>
+      <p class="service-name">Edición narrativa</p>
+      <p class="service-desc">Videos de formato largo con estructura, ritmo y propósito. Documentales, YouTube, branded content.</p>
+    </div>
+    <div class="service-card fade-up">
+      <p class="service-num">02</p>
+      <p class="service-name">Reels y Shorts</p>
+      <p class="service-desc">Contenido corto optimizado para retención. Pensado desde el hook hasta el último segundo.</p>
+    </div>
+    <div class="service-card fade-up">
+      <p class="service-num">03</p>
+      <p class="service-name">Contenido de marca</p>
+      <p class="service-desc">Videos para marcas personales y empresas que quieren comunicar algo de verdad, no solo aparecer.</p>
+    </div>
+    <div class="service-card fade-up">
+      <p class="service-num">04</p>
+      <p class="service-name">Producción con IA</p>
+      <p class="service-desc">Pipeline completa de generación y postproducción con herramientas de IA integradas a Resolve.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="tex-cross">
+  <p class="eyebrow" style="justify-content:center;">Contacto</p>
+  <h2 class="section-title fade-up">
+    ¿Tienes un proyecto?
+    <em>Hablemos.</em>
+  </h2>
+  <p class="contact-sub fade-up">Respondo en menos de 24 horas.</p>
+  <div class="contact-links fade-up">
+    <a href="mailto:danvissuals@gmail.com" class="contact-link">
+      <span class="contact-link-label">Email</span>
+      <span class="contact-link-value">danvissuals@gmail.com</span>
+    </a>
+    <a href="https://wa.link/7byln1" target="_blank" rel="noopener" class="contact-link">
+      <span class="contact-link-label">Cotizaciones · WhatsApp</span>
+      <span class="contact-link-value">Escríbeme directo →</span>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2025 DanVissuals</span>
+  <span>Hecho con intención, no con plantilla.</span>
+</footer>
+
+<script>
+  // Nav scroll
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // Fade in
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // Filter
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const cards = document.querySelectorAll('.video-card');
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const f = btn.dataset.filter;
+      cards.forEach(c => {
+        c.style.display = (f === 'all' || c.dataset.cat === f) ? '' : 'none';
+      });
+    });
+  });
+
+  // Modal
+  const modal = document.getElementById('modal');
+  const modalIframe = document.getElementById('modal-iframe');
+  const modalInner = document.getElementById('modal-inner');
+  const modalClose = document.getElementById('modal-close');
+
+  document.querySelectorAll('.video-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const id = card.dataset.id;
+      const type = card.dataset.type;
+      modalIframe.src = `https://www.youtube.com/embed/${id}?autoplay=1`;
+      modalInner.classList.toggle('is-short', type === 'short');
+      modal.classList.add('open');
+    });
+  });
+
+  function closeModal() {
+    modal.classList.remove('open');
+    modalIframe.src = '';
+  }
+  modalClose.addEventListener('click', closeModal);
+  modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+</script>
+</body>
+</html>
