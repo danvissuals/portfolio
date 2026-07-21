@@ -1295,10 +1295,9 @@
   document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
   // Portfolio carousels: auto-scroll infinite loop, pause on hover/touch/drag
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   document.querySelectorAll('.carousel-track').forEach(track => {
     const speed = parseFloat(track.dataset.speed || '0.5');
-    let paused = reduceMotion;
+    let paused = false;
     let resumeTimer = null;
     let isDragging = false;
     let dragStartX = 0;
@@ -1319,8 +1318,8 @@
     }
     requestAnimationFrame(tick);
 
-    track.addEventListener('mouseenter', () => { if (!reduceMotion) paused = true; });
-    track.addEventListener('mouseleave', () => { if (!reduceMotion) paused = false; });
+    track.addEventListener('mouseenter', () => { paused = true; });
+    track.addEventListener('mouseleave', () => { paused = false; });
 
     track.addEventListener('mousedown', (e) => {
       isDragging = true;
@@ -1353,7 +1352,7 @@
     track.addEventListener('touchend', () => {
       isDragging = false;
       loopIfNeeded();
-      if (!reduceMotion) resumeTimer = setTimeout(() => { paused = false; }, 2500);
+      resumeTimer = setTimeout(() => { paused = false; }, 2500);
     });
   });
 
