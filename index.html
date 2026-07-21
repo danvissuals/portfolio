@@ -522,16 +522,24 @@
     .carousel-wrap::after { right: 0; background: linear-gradient(270deg, var(--surface) 0%, transparent 100%); }
 
     .carousel-track {
+      overflow: hidden;
+    }
+    .carousel-inner {
       display: flex;
       gap: 1rem;
-      overflow-x: auto;
-      scroll-behavior: auto;
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-      cursor: grab;
+      width: max-content;
+      animation-name: carousel-scroll;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
     }
-    .carousel-track.dragging { cursor: grabbing; scroll-behavior: auto; }
-    .carousel-track::-webkit-scrollbar { display: none; }
+    .carousel-track.paused .carousel-inner,
+    .carousel-track:hover .carousel-inner {
+      animation-play-state: paused;
+    }
+    @keyframes carousel-scroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
 
     .portfolio-empty {
       display: none;
@@ -957,606 +965,610 @@
     <div class="fade-up">
       <p class="portfolio-row-label">Formato largo</p>
     <div class="carousel-wrap">
-      <div class="carousel-track" data-speed="0.5">
-      <div class="video-card fade-up" data-cat="largo" data-id="62eT3NaUznw" data-type="largo">
-        <div class="thumb-wrap">
-          <img src="https://img.youtube.com/vi/62eT3NaUznw/maxresdefault.jpg" alt="Woker Achiever — Contenido para YouTube" loading="lazy" onerror="this.src='https://img.youtube.com/vi/62eT3NaUznw/hqdefault.jpg'" />
-          <div class="play-btn"><div class="play-icon"></div></div>
+      <div class="carousel-track">
+        <div class="carousel-inner">
+        <div class="video-card fade-up" data-cat="largo" data-id="62eT3NaUznw" data-type="largo">
+          <div class="thumb-wrap">
+            <img src="https://img.youtube.com/vi/62eT3NaUznw/maxresdefault.jpg" alt="Woker Achiever — Contenido para YouTube" loading="lazy" onerror="this.src='https://img.youtube.com/vi/62eT3NaUznw/hqdefault.jpg'" />
+            <div class="play-btn"><div class="play-icon"></div></div>
+          </div>
+          <div class="video-info">
+            <p class="video-tag">Formato largo</p>
+            <p class="video-title">Woker Achiever — Contenido para YouTube</p>
+          </div>
         </div>
-        <div class="video-info">
-          <p class="video-tag">Formato largo</p>
-          <p class="video-title">Woker Achiever — Contenido para YouTube</p>
-        </div>
-      </div>
 
-      <div class="video-card fade-up" data-cat="largo" data-id="38j_bZJCuec" data-type="largo">
-        <div class="thumb-wrap">
-          <img src="https://img.youtube.com/vi/38j_bZJCuec/maxresdefault.jpg" alt="Woker Achiever — Comercial de invitación" loading="lazy" onerror="this.src='https://img.youtube.com/vi/38j_bZJCuec/hqdefault.jpg'" />
-          <div class="play-btn"><div class="play-icon"></div></div>
+        <div class="video-card fade-up" data-cat="largo" data-id="38j_bZJCuec" data-type="largo">
+          <div class="thumb-wrap">
+            <img src="https://img.youtube.com/vi/38j_bZJCuec/maxresdefault.jpg" alt="Woker Achiever — Comercial de invitación" loading="lazy" onerror="this.src='https://img.youtube.com/vi/38j_bZJCuec/hqdefault.jpg'" />
+            <div class="play-btn"><div class="play-icon"></div></div>
+          </div>
+          <div class="video-info">
+            <p class="video-tag">Formato largo</p>
+            <p class="video-title">Woker Achiever — Comercial de invitación</p>
+          </div>
         </div>
-        <div class="video-info">
-          <p class="video-tag">Formato largo</p>
-          <p class="video-title">Woker Achiever — Comercial de invitación</p>
-        </div>
-      </div>
 
-      <div class="video-card fade-up" data-cat="largo" data-id="6xQnto3aNJA" data-type="largo">
-        <div class="thumb-wrap">
-          <img src="https://img.youtube.com/vi/6xQnto3aNJA/maxresdefault.jpg" alt="TradeStars Academy — Recap Wallstreet Experience" loading="lazy" onerror="this.src='https://img.youtube.com/vi/6xQnto3aNJA/hqdefault.jpg'" />
-          <div class="play-btn"><div class="play-icon"></div></div>
+        <div class="video-card fade-up" data-cat="largo" data-id="6xQnto3aNJA" data-type="largo">
+          <div class="thumb-wrap">
+            <img src="https://img.youtube.com/vi/6xQnto3aNJA/maxresdefault.jpg" alt="TradeStars Academy — Recap Wallstreet Experience" loading="lazy" onerror="this.src='https://img.youtube.com/vi/6xQnto3aNJA/hqdefault.jpg'" />
+            <div class="play-btn"><div class="play-icon"></div></div>
+          </div>
+          <div class="video-info">
+            <p class="video-tag">Formato largo</p>
+            <p class="video-title">TradeStars Academy — Recap Wallstreet Experience</p>
+          </div>
         </div>
-        <div class="video-info">
-          <p class="video-tag">Formato largo</p>
-          <p class="video-title">TradeStars Academy — Recap Wallstreet Experience</p>
-        </div>
-      </div>
 
-      <div class="video-card fade-up" data-cat="largo" data-id="62eT3NaUznw" data-type="largo">
-        <div class="thumb-wrap">
-          <img src="https://img.youtube.com/vi/62eT3NaUznw/maxresdefault.jpg" alt="Woker Achiever — Contenido para YouTube" loading="lazy" onerror="this.src='https://img.youtube.com/vi/62eT3NaUznw/hqdefault.jpg'" />
-          <div class="play-btn"><div class="play-icon"></div></div>
+        <div class="video-card fade-up" data-cat="largo" data-id="62eT3NaUznw" data-type="largo">
+          <div class="thumb-wrap">
+            <img src="https://img.youtube.com/vi/62eT3NaUznw/maxresdefault.jpg" alt="Woker Achiever — Contenido para YouTube" loading="lazy" onerror="this.src='https://img.youtube.com/vi/62eT3NaUznw/hqdefault.jpg'" />
+            <div class="play-btn"><div class="play-icon"></div></div>
+          </div>
+          <div class="video-info">
+            <p class="video-tag">Formato largo</p>
+            <p class="video-title">Woker Achiever — Contenido para YouTube</p>
+          </div>
         </div>
-        <div class="video-info">
-          <p class="video-tag">Formato largo</p>
-          <p class="video-title">Woker Achiever — Contenido para YouTube</p>
-        </div>
-      </div>
 
-      <div class="video-card fade-up" data-cat="largo" data-id="38j_bZJCuec" data-type="largo">
-        <div class="thumb-wrap">
-          <img src="https://img.youtube.com/vi/38j_bZJCuec/maxresdefault.jpg" alt="Woker Achiever — Comercial de invitación" loading="lazy" onerror="this.src='https://img.youtube.com/vi/38j_bZJCuec/hqdefault.jpg'" />
-          <div class="play-btn"><div class="play-icon"></div></div>
+        <div class="video-card fade-up" data-cat="largo" data-id="38j_bZJCuec" data-type="largo">
+          <div class="thumb-wrap">
+            <img src="https://img.youtube.com/vi/38j_bZJCuec/maxresdefault.jpg" alt="Woker Achiever — Comercial de invitación" loading="lazy" onerror="this.src='https://img.youtube.com/vi/38j_bZJCuec/hqdefault.jpg'" />
+            <div class="play-btn"><div class="play-icon"></div></div>
+          </div>
+          <div class="video-info">
+            <p class="video-tag">Formato largo</p>
+            <p class="video-title">Woker Achiever — Comercial de invitación</p>
+          </div>
         </div>
-        <div class="video-info">
-          <p class="video-tag">Formato largo</p>
-          <p class="video-title">Woker Achiever — Comercial de invitación</p>
-        </div>
-      </div>
 
-      <div class="video-card fade-up" data-cat="largo" data-id="6xQnto3aNJA" data-type="largo">
-        <div class="thumb-wrap">
-          <img src="https://img.youtube.com/vi/6xQnto3aNJA/maxresdefault.jpg" alt="TradeStars Academy — Recap Wallstreet Experience" loading="lazy" onerror="this.src='https://img.youtube.com/vi/6xQnto3aNJA/hqdefault.jpg'" />
-          <div class="play-btn"><div class="play-icon"></div></div>
+        <div class="video-card fade-up" data-cat="largo" data-id="6xQnto3aNJA" data-type="largo">
+          <div class="thumb-wrap">
+            <img src="https://img.youtube.com/vi/6xQnto3aNJA/maxresdefault.jpg" alt="TradeStars Academy — Recap Wallstreet Experience" loading="lazy" onerror="this.src='https://img.youtube.com/vi/6xQnto3aNJA/hqdefault.jpg'" />
+            <div class="play-btn"><div class="play-icon"></div></div>
+          </div>
+          <div class="video-info">
+            <p class="video-tag">Formato largo</p>
+            <p class="video-title">TradeStars Academy — Recap Wallstreet Experience</p>
+          </div>
         </div>
-        <div class="video-info">
-          <p class="video-tag">Formato largo</p>
-          <p class="video-title">TradeStars Academy — Recap Wallstreet Experience</p>
-        </div>
-      </div>
 
-      <div class="video-card fade-up" data-cat="largo" data-id="62eT3NaUznw" data-type="largo">
-        <div class="thumb-wrap">
-          <img src="https://img.youtube.com/vi/62eT3NaUznw/maxresdefault.jpg" alt="Woker Achiever — Contenido para YouTube" loading="lazy" onerror="this.src='https://img.youtube.com/vi/62eT3NaUznw/hqdefault.jpg'" />
-          <div class="play-btn"><div class="play-icon"></div></div>
+        <div class="video-card fade-up" data-cat="largo" data-id="62eT3NaUznw" data-type="largo">
+          <div class="thumb-wrap">
+            <img src="https://img.youtube.com/vi/62eT3NaUznw/maxresdefault.jpg" alt="Woker Achiever — Contenido para YouTube" loading="lazy" onerror="this.src='https://img.youtube.com/vi/62eT3NaUznw/hqdefault.jpg'" />
+            <div class="play-btn"><div class="play-icon"></div></div>
+          </div>
+          <div class="video-info">
+            <p class="video-tag">Formato largo</p>
+            <p class="video-title">Woker Achiever — Contenido para YouTube</p>
+          </div>
         </div>
-        <div class="video-info">
-          <p class="video-tag">Formato largo</p>
-          <p class="video-title">Woker Achiever — Contenido para YouTube</p>
-        </div>
-      </div>
 
-      <div class="video-card fade-up" data-cat="largo" data-id="38j_bZJCuec" data-type="largo">
-        <div class="thumb-wrap">
-          <img src="https://img.youtube.com/vi/38j_bZJCuec/maxresdefault.jpg" alt="Woker Achiever — Comercial de invitación" loading="lazy" onerror="this.src='https://img.youtube.com/vi/38j_bZJCuec/hqdefault.jpg'" />
-          <div class="play-btn"><div class="play-icon"></div></div>
+        <div class="video-card fade-up" data-cat="largo" data-id="38j_bZJCuec" data-type="largo">
+          <div class="thumb-wrap">
+            <img src="https://img.youtube.com/vi/38j_bZJCuec/maxresdefault.jpg" alt="Woker Achiever — Comercial de invitación" loading="lazy" onerror="this.src='https://img.youtube.com/vi/38j_bZJCuec/hqdefault.jpg'" />
+            <div class="play-btn"><div class="play-icon"></div></div>
+          </div>
+          <div class="video-info">
+            <p class="video-tag">Formato largo</p>
+            <p class="video-title">Woker Achiever — Comercial de invitación</p>
+          </div>
         </div>
-        <div class="video-info">
-          <p class="video-tag">Formato largo</p>
-          <p class="video-title">Woker Achiever — Comercial de invitación</p>
-        </div>
-      </div>
 
-      <div class="video-card fade-up" data-cat="largo" data-id="6xQnto3aNJA" data-type="largo">
-        <div class="thumb-wrap">
-          <img src="https://img.youtube.com/vi/6xQnto3aNJA/maxresdefault.jpg" alt="TradeStars Academy — Recap Wallstreet Experience" loading="lazy" onerror="this.src='https://img.youtube.com/vi/6xQnto3aNJA/hqdefault.jpg'" />
-          <div class="play-btn"><div class="play-icon"></div></div>
+        <div class="video-card fade-up" data-cat="largo" data-id="6xQnto3aNJA" data-type="largo">
+          <div class="thumb-wrap">
+            <img src="https://img.youtube.com/vi/6xQnto3aNJA/maxresdefault.jpg" alt="TradeStars Academy — Recap Wallstreet Experience" loading="lazy" onerror="this.src='https://img.youtube.com/vi/6xQnto3aNJA/hqdefault.jpg'" />
+            <div class="play-btn"><div class="play-icon"></div></div>
+          </div>
+          <div class="video-info">
+            <p class="video-tag">Formato largo</p>
+            <p class="video-title">TradeStars Academy — Recap Wallstreet Experience</p>
+          </div>
         </div>
-        <div class="video-info">
-          <p class="video-tag">Formato largo</p>
-          <p class="video-title">TradeStars Academy — Recap Wallstreet Experience</p>
-        </div>
-      </div>
 
-      <div class="video-card fade-up" data-cat="largo" data-id="62eT3NaUznw" data-type="largo">
-        <div class="thumb-wrap">
-          <img src="https://img.youtube.com/vi/62eT3NaUznw/maxresdefault.jpg" alt="Woker Achiever — Contenido para YouTube" loading="lazy" onerror="this.src='https://img.youtube.com/vi/62eT3NaUznw/hqdefault.jpg'" />
-          <div class="play-btn"><div class="play-icon"></div></div>
+        <div class="video-card fade-up" data-cat="largo" data-id="62eT3NaUznw" data-type="largo">
+          <div class="thumb-wrap">
+            <img src="https://img.youtube.com/vi/62eT3NaUznw/maxresdefault.jpg" alt="Woker Achiever — Contenido para YouTube" loading="lazy" onerror="this.src='https://img.youtube.com/vi/62eT3NaUznw/hqdefault.jpg'" />
+            <div class="play-btn"><div class="play-icon"></div></div>
+          </div>
+          <div class="video-info">
+            <p class="video-tag">Formato largo</p>
+            <p class="video-title">Woker Achiever — Contenido para YouTube</p>
+          </div>
         </div>
-        <div class="video-info">
-          <p class="video-tag">Formato largo</p>
-          <p class="video-title">Woker Achiever — Contenido para YouTube</p>
-        </div>
-      </div>
 
-      <div class="video-card fade-up" data-cat="largo" data-id="38j_bZJCuec" data-type="largo">
-        <div class="thumb-wrap">
-          <img src="https://img.youtube.com/vi/38j_bZJCuec/maxresdefault.jpg" alt="Woker Achiever — Comercial de invitación" loading="lazy" onerror="this.src='https://img.youtube.com/vi/38j_bZJCuec/hqdefault.jpg'" />
-          <div class="play-btn"><div class="play-icon"></div></div>
+        <div class="video-card fade-up" data-cat="largo" data-id="38j_bZJCuec" data-type="largo">
+          <div class="thumb-wrap">
+            <img src="https://img.youtube.com/vi/38j_bZJCuec/maxresdefault.jpg" alt="Woker Achiever — Comercial de invitación" loading="lazy" onerror="this.src='https://img.youtube.com/vi/38j_bZJCuec/hqdefault.jpg'" />
+            <div class="play-btn"><div class="play-icon"></div></div>
+          </div>
+          <div class="video-info">
+            <p class="video-tag">Formato largo</p>
+            <p class="video-title">Woker Achiever — Comercial de invitación</p>
+          </div>
         </div>
-        <div class="video-info">
-          <p class="video-tag">Formato largo</p>
-          <p class="video-title">Woker Achiever — Comercial de invitación</p>
-        </div>
-      </div>
 
-      <div class="video-card fade-up" data-cat="largo" data-id="6xQnto3aNJA" data-type="largo">
-        <div class="thumb-wrap">
-          <img src="https://img.youtube.com/vi/6xQnto3aNJA/maxresdefault.jpg" alt="TradeStars Academy — Recap Wallstreet Experience" loading="lazy" onerror="this.src='https://img.youtube.com/vi/6xQnto3aNJA/hqdefault.jpg'" />
-          <div class="play-btn"><div class="play-icon"></div></div>
+        <div class="video-card fade-up" data-cat="largo" data-id="6xQnto3aNJA" data-type="largo">
+          <div class="thumb-wrap">
+            <img src="https://img.youtube.com/vi/6xQnto3aNJA/maxresdefault.jpg" alt="TradeStars Academy — Recap Wallstreet Experience" loading="lazy" onerror="this.src='https://img.youtube.com/vi/6xQnto3aNJA/hqdefault.jpg'" />
+            <div class="play-btn"><div class="play-icon"></div></div>
+          </div>
+          <div class="video-info">
+            <p class="video-tag">Formato largo</p>
+            <p class="video-title">TradeStars Academy — Recap Wallstreet Experience</p>
+          </div>
         </div>
-        <div class="video-info">
-          <p class="video-tag">Formato largo</p>
-          <p class="video-title">TradeStars Academy — Recap Wallstreet Experience</p>
-        </div>
-      </div>
 
-      <div class="video-card fade-up" data-cat="largo" data-id="62eT3NaUznw" data-type="largo">
-        <div class="thumb-wrap">
-          <img src="https://img.youtube.com/vi/62eT3NaUznw/maxresdefault.jpg" alt="Woker Achiever — Contenido para YouTube" loading="lazy" onerror="this.src='https://img.youtube.com/vi/62eT3NaUznw/hqdefault.jpg'" />
-          <div class="play-btn"><div class="play-icon"></div></div>
+        <div class="video-card fade-up" data-cat="largo" data-id="62eT3NaUznw" data-type="largo">
+          <div class="thumb-wrap">
+            <img src="https://img.youtube.com/vi/62eT3NaUznw/maxresdefault.jpg" alt="Woker Achiever — Contenido para YouTube" loading="lazy" onerror="this.src='https://img.youtube.com/vi/62eT3NaUznw/hqdefault.jpg'" />
+            <div class="play-btn"><div class="play-icon"></div></div>
+          </div>
+          <div class="video-info">
+            <p class="video-tag">Formato largo</p>
+            <p class="video-title">Woker Achiever — Contenido para YouTube</p>
+          </div>
         </div>
-        <div class="video-info">
-          <p class="video-tag">Formato largo</p>
-          <p class="video-title">Woker Achiever — Contenido para YouTube</p>
-        </div>
-      </div>
 
-      <div class="video-card fade-up" data-cat="largo" data-id="38j_bZJCuec" data-type="largo">
-        <div class="thumb-wrap">
-          <img src="https://img.youtube.com/vi/38j_bZJCuec/maxresdefault.jpg" alt="Woker Achiever — Comercial de invitación" loading="lazy" onerror="this.src='https://img.youtube.com/vi/38j_bZJCuec/hqdefault.jpg'" />
-          <div class="play-btn"><div class="play-icon"></div></div>
+        <div class="video-card fade-up" data-cat="largo" data-id="38j_bZJCuec" data-type="largo">
+          <div class="thumb-wrap">
+            <img src="https://img.youtube.com/vi/38j_bZJCuec/maxresdefault.jpg" alt="Woker Achiever — Comercial de invitación" loading="lazy" onerror="this.src='https://img.youtube.com/vi/38j_bZJCuec/hqdefault.jpg'" />
+            <div class="play-btn"><div class="play-icon"></div></div>
+          </div>
+          <div class="video-info">
+            <p class="video-tag">Formato largo</p>
+            <p class="video-title">Woker Achiever — Comercial de invitación</p>
+          </div>
         </div>
-        <div class="video-info">
-          <p class="video-tag">Formato largo</p>
-          <p class="video-title">Woker Achiever — Comercial de invitación</p>
-        </div>
-      </div>
 
-      <div class="video-card fade-up" data-cat="largo" data-id="6xQnto3aNJA" data-type="largo">
-        <div class="thumb-wrap">
-          <img src="https://img.youtube.com/vi/6xQnto3aNJA/maxresdefault.jpg" alt="TradeStars Academy — Recap Wallstreet Experience" loading="lazy" onerror="this.src='https://img.youtube.com/vi/6xQnto3aNJA/hqdefault.jpg'" />
-          <div class="play-btn"><div class="play-icon"></div></div>
+        <div class="video-card fade-up" data-cat="largo" data-id="6xQnto3aNJA" data-type="largo">
+          <div class="thumb-wrap">
+            <img src="https://img.youtube.com/vi/6xQnto3aNJA/maxresdefault.jpg" alt="TradeStars Academy — Recap Wallstreet Experience" loading="lazy" onerror="this.src='https://img.youtube.com/vi/6xQnto3aNJA/hqdefault.jpg'" />
+            <div class="play-btn"><div class="play-icon"></div></div>
+          </div>
+          <div class="video-info">
+            <p class="video-tag">Formato largo</p>
+            <p class="video-title">TradeStars Academy — Recap Wallstreet Experience</p>
+          </div>
         </div>
-        <div class="video-info">
-          <p class="video-tag">Formato largo</p>
-          <p class="video-title">TradeStars Academy — Recap Wallstreet Experience</p>
-        </div>
-      </div>
 
-      <div class="video-card fade-up" data-cat="largo" data-id="62eT3NaUznw" data-type="largo">
-        <div class="thumb-wrap">
-          <img src="https://img.youtube.com/vi/62eT3NaUznw/maxresdefault.jpg" alt="Woker Achiever — Contenido para YouTube" loading="lazy" onerror="this.src='https://img.youtube.com/vi/62eT3NaUznw/hqdefault.jpg'" />
-          <div class="play-btn"><div class="play-icon"></div></div>
+        <div class="video-card fade-up" data-cat="largo" data-id="62eT3NaUznw" data-type="largo">
+          <div class="thumb-wrap">
+            <img src="https://img.youtube.com/vi/62eT3NaUznw/maxresdefault.jpg" alt="Woker Achiever — Contenido para YouTube" loading="lazy" onerror="this.src='https://img.youtube.com/vi/62eT3NaUznw/hqdefault.jpg'" />
+            <div class="play-btn"><div class="play-icon"></div></div>
+          </div>
+          <div class="video-info">
+            <p class="video-tag">Formato largo</p>
+            <p class="video-title">Woker Achiever — Contenido para YouTube</p>
+          </div>
         </div>
-        <div class="video-info">
-          <p class="video-tag">Formato largo</p>
-          <p class="video-title">Woker Achiever — Contenido para YouTube</p>
-        </div>
-      </div>
 
-      <div class="video-card fade-up" data-cat="largo" data-id="38j_bZJCuec" data-type="largo">
-        <div class="thumb-wrap">
-          <img src="https://img.youtube.com/vi/38j_bZJCuec/maxresdefault.jpg" alt="Woker Achiever — Comercial de invitación" loading="lazy" onerror="this.src='https://img.youtube.com/vi/38j_bZJCuec/hqdefault.jpg'" />
-          <div class="play-btn"><div class="play-icon"></div></div>
+        <div class="video-card fade-up" data-cat="largo" data-id="38j_bZJCuec" data-type="largo">
+          <div class="thumb-wrap">
+            <img src="https://img.youtube.com/vi/38j_bZJCuec/maxresdefault.jpg" alt="Woker Achiever — Comercial de invitación" loading="lazy" onerror="this.src='https://img.youtube.com/vi/38j_bZJCuec/hqdefault.jpg'" />
+            <div class="play-btn"><div class="play-icon"></div></div>
+          </div>
+          <div class="video-info">
+            <p class="video-tag">Formato largo</p>
+            <p class="video-title">Woker Achiever — Comercial de invitación</p>
+          </div>
         </div>
-        <div class="video-info">
-          <p class="video-tag">Formato largo</p>
-          <p class="video-title">Woker Achiever — Comercial de invitación</p>
-        </div>
-      </div>
 
-      <div class="video-card fade-up" data-cat="largo" data-id="6xQnto3aNJA" data-type="largo">
-        <div class="thumb-wrap">
-          <img src="https://img.youtube.com/vi/6xQnto3aNJA/maxresdefault.jpg" alt="TradeStars Academy — Recap Wallstreet Experience" loading="lazy" onerror="this.src='https://img.youtube.com/vi/6xQnto3aNJA/hqdefault.jpg'" />
-          <div class="play-btn"><div class="play-icon"></div></div>
+        <div class="video-card fade-up" data-cat="largo" data-id="6xQnto3aNJA" data-type="largo">
+          <div class="thumb-wrap">
+            <img src="https://img.youtube.com/vi/6xQnto3aNJA/maxresdefault.jpg" alt="TradeStars Academy — Recap Wallstreet Experience" loading="lazy" onerror="this.src='https://img.youtube.com/vi/6xQnto3aNJA/hqdefault.jpg'" />
+            <div class="play-btn"><div class="play-icon"></div></div>
+          </div>
+          <div class="video-info">
+            <p class="video-tag">Formato largo</p>
+            <p class="video-title">TradeStars Academy — Recap Wallstreet Experience</p>
+          </div>
         </div>
-        <div class="video-info">
-          <p class="video-tag">Formato largo</p>
-          <p class="video-title">TradeStars Academy — Recap Wallstreet Experience</p>
         </div>
-      </div>
       </div>
     </div>
     </div>
     <div class="fade-up">
       <p class="portfolio-row-label">Shorts / Reels</p>
     <div class="carousel-wrap">
-      <div class="carousel-track shorts" data-speed="0.5">
-      <div class="video-card fade-up" data-cat="short" data-id="dgXWnRdnMIA" data-type="short">
-        <div class="thumb-wrap is-short">
-          <img src="https://img.youtube.com/vi/dgXWnRdnMIA/maxresdefault.jpg" alt="Pablo Lomeli — Reel sobre educación" loading="lazy" onerror="this.src='https://img.youtube.com/vi/dgXWnRdnMIA/hqdefault.jpg'" />
-          <div class="play-btn"><div class="play-icon"></div></div>
+      <div class="carousel-track shorts">
+        <div class="carousel-inner">
+        <div class="video-card fade-up" data-cat="short" data-id="dgXWnRdnMIA" data-type="short">
+          <div class="thumb-wrap is-short">
+            <img src="https://img.youtube.com/vi/dgXWnRdnMIA/maxresdefault.jpg" alt="Pablo Lomeli — Reel sobre educación" loading="lazy" onerror="this.src='https://img.youtube.com/vi/dgXWnRdnMIA/hqdefault.jpg'" />
+            <div class="play-btn"><div class="play-icon"></div></div>
+          </div>
+          <div class="video-info">
+            <p class="video-tag">Short / Reel</p>
+            <p class="video-title">Pablo Lomeli — Reel sobre educación</p>
+          </div>
         </div>
-        <div class="video-info">
-          <p class="video-tag">Short / Reel</p>
-          <p class="video-title">Pablo Lomeli — Reel sobre educación</p>
-        </div>
-      </div>
 
-      <div class="video-card fade-up" data-cat="short" data-id="CIkjCDTcqmg" data-type="short">
-        <div class="thumb-wrap is-short">
-          <img src="https://img.youtube.com/vi/CIkjCDTcqmg/maxresdefault.jpg" alt="Pablo Lomeli — Reel educativo" loading="lazy" onerror="this.src='https://img.youtube.com/vi/CIkjCDTcqmg/hqdefault.jpg'" />
-          <div class="play-btn"><div class="play-icon"></div></div>
+        <div class="video-card fade-up" data-cat="short" data-id="CIkjCDTcqmg" data-type="short">
+          <div class="thumb-wrap is-short">
+            <img src="https://img.youtube.com/vi/CIkjCDTcqmg/maxresdefault.jpg" alt="Pablo Lomeli — Reel educativo" loading="lazy" onerror="this.src='https://img.youtube.com/vi/CIkjCDTcqmg/hqdefault.jpg'" />
+            <div class="play-btn"><div class="play-icon"></div></div>
+          </div>
+          <div class="video-info">
+            <p class="video-tag">Short / Reel</p>
+            <p class="video-title">Pablo Lomeli — Reel educativo</p>
+          </div>
         </div>
-        <div class="video-info">
-          <p class="video-tag">Short / Reel</p>
-          <p class="video-title">Pablo Lomeli — Reel educativo</p>
-        </div>
-      </div>
 
-      <div class="video-card fade-up" data-cat="short" data-id="aCIS0dTAuJ8" data-type="short">
-        <div class="thumb-wrap is-short">
-          <img src="https://img.youtube.com/vi/aCIS0dTAuJ8/maxresdefault.jpg" alt="Woker Achiever — Importaciones y marketing" loading="lazy" onerror="this.src='https://img.youtube.com/vi/aCIS0dTAuJ8/hqdefault.jpg'" />
-          <div class="play-btn"><div class="play-icon"></div></div>
+        <div class="video-card fade-up" data-cat="short" data-id="aCIS0dTAuJ8" data-type="short">
+          <div class="thumb-wrap is-short">
+            <img src="https://img.youtube.com/vi/aCIS0dTAuJ8/maxresdefault.jpg" alt="Woker Achiever — Importaciones y marketing" loading="lazy" onerror="this.src='https://img.youtube.com/vi/aCIS0dTAuJ8/hqdefault.jpg'" />
+            <div class="play-btn"><div class="play-icon"></div></div>
+          </div>
+          <div class="video-info">
+            <p class="video-tag">Short / Reel</p>
+            <p class="video-title">Woker Achiever — Importaciones y marketing</p>
+          </div>
         </div>
-        <div class="video-info">
-          <p class="video-tag">Short / Reel</p>
-          <p class="video-title">Woker Achiever — Importaciones y marketing</p>
-        </div>
-      </div>
 
-      <div class="video-card fade-up" data-cat="short" data-id="Z3XluZ_WV3Q" data-type="short">
-        <div class="thumb-wrap is-short">
-          <img src="https://img.youtube.com/vi/Z3XluZ_WV3Q/maxresdefault.jpg" alt="Enma — Reel motivacional" loading="lazy" onerror="this.src='https://img.youtube.com/vi/Z3XluZ_WV3Q/hqdefault.jpg'" />
-          <div class="play-btn"><div class="play-icon"></div></div>
+        <div class="video-card fade-up" data-cat="short" data-id="Z3XluZ_WV3Q" data-type="short">
+          <div class="thumb-wrap is-short">
+            <img src="https://img.youtube.com/vi/Z3XluZ_WV3Q/maxresdefault.jpg" alt="Enma — Reel motivacional" loading="lazy" onerror="this.src='https://img.youtube.com/vi/Z3XluZ_WV3Q/hqdefault.jpg'" />
+            <div class="play-btn"><div class="play-icon"></div></div>
+          </div>
+          <div class="video-info">
+            <p class="video-tag">Short / Reel</p>
+            <p class="video-title">Enma — Reel motivacional</p>
+          </div>
         </div>
-        <div class="video-info">
-          <p class="video-tag">Short / Reel</p>
-          <p class="video-title">Enma — Reel motivacional</p>
-        </div>
-      </div>
 
-      <div class="video-card fade-up" data-cat="short" data-id="IN1_3ivwk1M" data-type="short">
-        <div class="thumb-wrap is-short">
-          <img src="https://img.youtube.com/vi/IN1_3ivwk1M/maxresdefault.jpg" alt="Woker Achiever — Historia de importaciones" loading="lazy" onerror="this.src='https://img.youtube.com/vi/IN1_3ivwk1M/hqdefault.jpg'" />
-          <div class="play-btn"><div class="play-icon"></div></div>
+        <div class="video-card fade-up" data-cat="short" data-id="IN1_3ivwk1M" data-type="short">
+          <div class="thumb-wrap is-short">
+            <img src="https://img.youtube.com/vi/IN1_3ivwk1M/maxresdefault.jpg" alt="Woker Achiever — Historia de importaciones" loading="lazy" onerror="this.src='https://img.youtube.com/vi/IN1_3ivwk1M/hqdefault.jpg'" />
+            <div class="play-btn"><div class="play-icon"></div></div>
+          </div>
+          <div class="video-info">
+            <p class="video-tag">Short / Reel</p>
+            <p class="video-title">Woker Achiever — Historia de importaciones</p>
+          </div>
         </div>
-        <div class="video-info">
-          <p class="video-tag">Short / Reel</p>
-          <p class="video-title">Woker Achiever — Historia de importaciones</p>
-        </div>
-      </div>
 
-      <div class="video-card fade-up" data-cat="short" data-id="XbL8Q0xrLIk" data-type="short">
-        <div class="thumb-wrap is-short">
-          <img src="https://img.youtube.com/vi/XbL8Q0xrLIk/maxresdefault.jpg" alt="Abrecampo — Reel gastronómico" loading="lazy" onerror="this.src='https://img.youtube.com/vi/XbL8Q0xrLIk/hqdefault.jpg'" />
-          <div class="play-btn"><div class="play-icon"></div></div>
+        <div class="video-card fade-up" data-cat="short" data-id="XbL8Q0xrLIk" data-type="short">
+          <div class="thumb-wrap is-short">
+            <img src="https://img.youtube.com/vi/XbL8Q0xrLIk/maxresdefault.jpg" alt="Abrecampo — Reel gastronómico" loading="lazy" onerror="this.src='https://img.youtube.com/vi/XbL8Q0xrLIk/hqdefault.jpg'" />
+            <div class="play-btn"><div class="play-icon"></div></div>
+          </div>
+          <div class="video-info">
+            <p class="video-tag">Short / Reel</p>
+            <p class="video-title">Abrecampo — Reel gastronómico</p>
+          </div>
         </div>
-        <div class="video-info">
-          <p class="video-tag">Short / Reel</p>
-          <p class="video-title">Abrecampo — Reel gastronómico</p>
-        </div>
-      </div>
 
-      <div class="video-card fade-up" data-cat="short" data-id="dgXWnRdnMIA" data-type="short">
-        <div class="thumb-wrap is-short">
-          <img src="https://img.youtube.com/vi/dgXWnRdnMIA/maxresdefault.jpg" alt="Pablo Lomeli — Reel sobre educación" loading="lazy" onerror="this.src='https://img.youtube.com/vi/dgXWnRdnMIA/hqdefault.jpg'" />
-          <div class="play-btn"><div class="play-icon"></div></div>
+        <div class="video-card fade-up" data-cat="short" data-id="dgXWnRdnMIA" data-type="short">
+          <div class="thumb-wrap is-short">
+            <img src="https://img.youtube.com/vi/dgXWnRdnMIA/maxresdefault.jpg" alt="Pablo Lomeli — Reel sobre educación" loading="lazy" onerror="this.src='https://img.youtube.com/vi/dgXWnRdnMIA/hqdefault.jpg'" />
+            <div class="play-btn"><div class="play-icon"></div></div>
+          </div>
+          <div class="video-info">
+            <p class="video-tag">Short / Reel</p>
+            <p class="video-title">Pablo Lomeli — Reel sobre educación</p>
+          </div>
         </div>
-        <div class="video-info">
-          <p class="video-tag">Short / Reel</p>
-          <p class="video-title">Pablo Lomeli — Reel sobre educación</p>
-        </div>
-      </div>
 
-      <div class="video-card fade-up" data-cat="short" data-id="CIkjCDTcqmg" data-type="short">
-        <div class="thumb-wrap is-short">
-          <img src="https://img.youtube.com/vi/CIkjCDTcqmg/maxresdefault.jpg" alt="Pablo Lomeli — Reel educativo" loading="lazy" onerror="this.src='https://img.youtube.com/vi/CIkjCDTcqmg/hqdefault.jpg'" />
-          <div class="play-btn"><div class="play-icon"></div></div>
+        <div class="video-card fade-up" data-cat="short" data-id="CIkjCDTcqmg" data-type="short">
+          <div class="thumb-wrap is-short">
+            <img src="https://img.youtube.com/vi/CIkjCDTcqmg/maxresdefault.jpg" alt="Pablo Lomeli — Reel educativo" loading="lazy" onerror="this.src='https://img.youtube.com/vi/CIkjCDTcqmg/hqdefault.jpg'" />
+            <div class="play-btn"><div class="play-icon"></div></div>
+          </div>
+          <div class="video-info">
+            <p class="video-tag">Short / Reel</p>
+            <p class="video-title">Pablo Lomeli — Reel educativo</p>
+          </div>
         </div>
-        <div class="video-info">
-          <p class="video-tag">Short / Reel</p>
-          <p class="video-title">Pablo Lomeli — Reel educativo</p>
-        </div>
-      </div>
 
-      <div class="video-card fade-up" data-cat="short" data-id="aCIS0dTAuJ8" data-type="short">
-        <div class="thumb-wrap is-short">
-          <img src="https://img.youtube.com/vi/aCIS0dTAuJ8/maxresdefault.jpg" alt="Woker Achiever — Importaciones y marketing" loading="lazy" onerror="this.src='https://img.youtube.com/vi/aCIS0dTAuJ8/hqdefault.jpg'" />
-          <div class="play-btn"><div class="play-icon"></div></div>
+        <div class="video-card fade-up" data-cat="short" data-id="aCIS0dTAuJ8" data-type="short">
+          <div class="thumb-wrap is-short">
+            <img src="https://img.youtube.com/vi/aCIS0dTAuJ8/maxresdefault.jpg" alt="Woker Achiever — Importaciones y marketing" loading="lazy" onerror="this.src='https://img.youtube.com/vi/aCIS0dTAuJ8/hqdefault.jpg'" />
+            <div class="play-btn"><div class="play-icon"></div></div>
+          </div>
+          <div class="video-info">
+            <p class="video-tag">Short / Reel</p>
+            <p class="video-title">Woker Achiever — Importaciones y marketing</p>
+          </div>
         </div>
-        <div class="video-info">
-          <p class="video-tag">Short / Reel</p>
-          <p class="video-title">Woker Achiever — Importaciones y marketing</p>
-        </div>
-      </div>
 
-      <div class="video-card fade-up" data-cat="short" data-id="Z3XluZ_WV3Q" data-type="short">
-        <div class="thumb-wrap is-short">
-          <img src="https://img.youtube.com/vi/Z3XluZ_WV3Q/maxresdefault.jpg" alt="Enma — Reel motivacional" loading="lazy" onerror="this.src='https://img.youtube.com/vi/Z3XluZ_WV3Q/hqdefault.jpg'" />
-          <div class="play-btn"><div class="play-icon"></div></div>
+        <div class="video-card fade-up" data-cat="short" data-id="Z3XluZ_WV3Q" data-type="short">
+          <div class="thumb-wrap is-short">
+            <img src="https://img.youtube.com/vi/Z3XluZ_WV3Q/maxresdefault.jpg" alt="Enma — Reel motivacional" loading="lazy" onerror="this.src='https://img.youtube.com/vi/Z3XluZ_WV3Q/hqdefault.jpg'" />
+            <div class="play-btn"><div class="play-icon"></div></div>
+          </div>
+          <div class="video-info">
+            <p class="video-tag">Short / Reel</p>
+            <p class="video-title">Enma — Reel motivacional</p>
+          </div>
         </div>
-        <div class="video-info">
-          <p class="video-tag">Short / Reel</p>
-          <p class="video-title">Enma — Reel motivacional</p>
-        </div>
-      </div>
 
-      <div class="video-card fade-up" data-cat="short" data-id="IN1_3ivwk1M" data-type="short">
-        <div class="thumb-wrap is-short">
-          <img src="https://img.youtube.com/vi/IN1_3ivwk1M/maxresdefault.jpg" alt="Woker Achiever — Historia de importaciones" loading="lazy" onerror="this.src='https://img.youtube.com/vi/IN1_3ivwk1M/hqdefault.jpg'" />
-          <div class="play-btn"><div class="play-icon"></div></div>
+        <div class="video-card fade-up" data-cat="short" data-id="IN1_3ivwk1M" data-type="short">
+          <div class="thumb-wrap is-short">
+            <img src="https://img.youtube.com/vi/IN1_3ivwk1M/maxresdefault.jpg" alt="Woker Achiever — Historia de importaciones" loading="lazy" onerror="this.src='https://img.youtube.com/vi/IN1_3ivwk1M/hqdefault.jpg'" />
+            <div class="play-btn"><div class="play-icon"></div></div>
+          </div>
+          <div class="video-info">
+            <p class="video-tag">Short / Reel</p>
+            <p class="video-title">Woker Achiever — Historia de importaciones</p>
+          </div>
         </div>
-        <div class="video-info">
-          <p class="video-tag">Short / Reel</p>
-          <p class="video-title">Woker Achiever — Historia de importaciones</p>
-        </div>
-      </div>
 
-      <div class="video-card fade-up" data-cat="short" data-id="XbL8Q0xrLIk" data-type="short">
-        <div class="thumb-wrap is-short">
-          <img src="https://img.youtube.com/vi/XbL8Q0xrLIk/maxresdefault.jpg" alt="Abrecampo — Reel gastronómico" loading="lazy" onerror="this.src='https://img.youtube.com/vi/XbL8Q0xrLIk/hqdefault.jpg'" />
-          <div class="play-btn"><div class="play-icon"></div></div>
+        <div class="video-card fade-up" data-cat="short" data-id="XbL8Q0xrLIk" data-type="short">
+          <div class="thumb-wrap is-short">
+            <img src="https://img.youtube.com/vi/XbL8Q0xrLIk/maxresdefault.jpg" alt="Abrecampo — Reel gastronómico" loading="lazy" onerror="this.src='https://img.youtube.com/vi/XbL8Q0xrLIk/hqdefault.jpg'" />
+            <div class="play-btn"><div class="play-icon"></div></div>
+          </div>
+          <div class="video-info">
+            <p class="video-tag">Short / Reel</p>
+            <p class="video-title">Abrecampo — Reel gastronómico</p>
+          </div>
         </div>
-        <div class="video-info">
-          <p class="video-tag">Short / Reel</p>
-          <p class="video-title">Abrecampo — Reel gastronómico</p>
-        </div>
-      </div>
 
-      <div class="video-card fade-up" data-cat="short" data-id="dgXWnRdnMIA" data-type="short">
-        <div class="thumb-wrap is-short">
-          <img src="https://img.youtube.com/vi/dgXWnRdnMIA/maxresdefault.jpg" alt="Pablo Lomeli — Reel sobre educación" loading="lazy" onerror="this.src='https://img.youtube.com/vi/dgXWnRdnMIA/hqdefault.jpg'" />
-          <div class="play-btn"><div class="play-icon"></div></div>
+        <div class="video-card fade-up" data-cat="short" data-id="dgXWnRdnMIA" data-type="short">
+          <div class="thumb-wrap is-short">
+            <img src="https://img.youtube.com/vi/dgXWnRdnMIA/maxresdefault.jpg" alt="Pablo Lomeli — Reel sobre educación" loading="lazy" onerror="this.src='https://img.youtube.com/vi/dgXWnRdnMIA/hqdefault.jpg'" />
+            <div class="play-btn"><div class="play-icon"></div></div>
+          </div>
+          <div class="video-info">
+            <p class="video-tag">Short / Reel</p>
+            <p class="video-title">Pablo Lomeli — Reel sobre educación</p>
+          </div>
         </div>
-        <div class="video-info">
-          <p class="video-tag">Short / Reel</p>
-          <p class="video-title">Pablo Lomeli — Reel sobre educación</p>
-        </div>
-      </div>
 
-      <div class="video-card fade-up" data-cat="short" data-id="CIkjCDTcqmg" data-type="short">
-        <div class="thumb-wrap is-short">
-          <img src="https://img.youtube.com/vi/CIkjCDTcqmg/maxresdefault.jpg" alt="Pablo Lomeli — Reel educativo" loading="lazy" onerror="this.src='https://img.youtube.com/vi/CIkjCDTcqmg/hqdefault.jpg'" />
-          <div class="play-btn"><div class="play-icon"></div></div>
+        <div class="video-card fade-up" data-cat="short" data-id="CIkjCDTcqmg" data-type="short">
+          <div class="thumb-wrap is-short">
+            <img src="https://img.youtube.com/vi/CIkjCDTcqmg/maxresdefault.jpg" alt="Pablo Lomeli — Reel educativo" loading="lazy" onerror="this.src='https://img.youtube.com/vi/CIkjCDTcqmg/hqdefault.jpg'" />
+            <div class="play-btn"><div class="play-icon"></div></div>
+          </div>
+          <div class="video-info">
+            <p class="video-tag">Short / Reel</p>
+            <p class="video-title">Pablo Lomeli — Reel educativo</p>
+          </div>
         </div>
-        <div class="video-info">
-          <p class="video-tag">Short / Reel</p>
-          <p class="video-title">Pablo Lomeli — Reel educativo</p>
-        </div>
-      </div>
 
-      <div class="video-card fade-up" data-cat="short" data-id="aCIS0dTAuJ8" data-type="short">
-        <div class="thumb-wrap is-short">
-          <img src="https://img.youtube.com/vi/aCIS0dTAuJ8/maxresdefault.jpg" alt="Woker Achiever — Importaciones y marketing" loading="lazy" onerror="this.src='https://img.youtube.com/vi/aCIS0dTAuJ8/hqdefault.jpg'" />
-          <div class="play-btn"><div class="play-icon"></div></div>
+        <div class="video-card fade-up" data-cat="short" data-id="aCIS0dTAuJ8" data-type="short">
+          <div class="thumb-wrap is-short">
+            <img src="https://img.youtube.com/vi/aCIS0dTAuJ8/maxresdefault.jpg" alt="Woker Achiever — Importaciones y marketing" loading="lazy" onerror="this.src='https://img.youtube.com/vi/aCIS0dTAuJ8/hqdefault.jpg'" />
+            <div class="play-btn"><div class="play-icon"></div></div>
+          </div>
+          <div class="video-info">
+            <p class="video-tag">Short / Reel</p>
+            <p class="video-title">Woker Achiever — Importaciones y marketing</p>
+          </div>
         </div>
-        <div class="video-info">
-          <p class="video-tag">Short / Reel</p>
-          <p class="video-title">Woker Achiever — Importaciones y marketing</p>
-        </div>
-      </div>
 
-      <div class="video-card fade-up" data-cat="short" data-id="Z3XluZ_WV3Q" data-type="short">
-        <div class="thumb-wrap is-short">
-          <img src="https://img.youtube.com/vi/Z3XluZ_WV3Q/maxresdefault.jpg" alt="Enma — Reel motivacional" loading="lazy" onerror="this.src='https://img.youtube.com/vi/Z3XluZ_WV3Q/hqdefault.jpg'" />
-          <div class="play-btn"><div class="play-icon"></div></div>
+        <div class="video-card fade-up" data-cat="short" data-id="Z3XluZ_WV3Q" data-type="short">
+          <div class="thumb-wrap is-short">
+            <img src="https://img.youtube.com/vi/Z3XluZ_WV3Q/maxresdefault.jpg" alt="Enma — Reel motivacional" loading="lazy" onerror="this.src='https://img.youtube.com/vi/Z3XluZ_WV3Q/hqdefault.jpg'" />
+            <div class="play-btn"><div class="play-icon"></div></div>
+          </div>
+          <div class="video-info">
+            <p class="video-tag">Short / Reel</p>
+            <p class="video-title">Enma — Reel motivacional</p>
+          </div>
         </div>
-        <div class="video-info">
-          <p class="video-tag">Short / Reel</p>
-          <p class="video-title">Enma — Reel motivacional</p>
-        </div>
-      </div>
 
-      <div class="video-card fade-up" data-cat="short" data-id="IN1_3ivwk1M" data-type="short">
-        <div class="thumb-wrap is-short">
-          <img src="https://img.youtube.com/vi/IN1_3ivwk1M/maxresdefault.jpg" alt="Woker Achiever — Historia de importaciones" loading="lazy" onerror="this.src='https://img.youtube.com/vi/IN1_3ivwk1M/hqdefault.jpg'" />
-          <div class="play-btn"><div class="play-icon"></div></div>
+        <div class="video-card fade-up" data-cat="short" data-id="IN1_3ivwk1M" data-type="short">
+          <div class="thumb-wrap is-short">
+            <img src="https://img.youtube.com/vi/IN1_3ivwk1M/maxresdefault.jpg" alt="Woker Achiever — Historia de importaciones" loading="lazy" onerror="this.src='https://img.youtube.com/vi/IN1_3ivwk1M/hqdefault.jpg'" />
+            <div class="play-btn"><div class="play-icon"></div></div>
+          </div>
+          <div class="video-info">
+            <p class="video-tag">Short / Reel</p>
+            <p class="video-title">Woker Achiever — Historia de importaciones</p>
+          </div>
         </div>
-        <div class="video-info">
-          <p class="video-tag">Short / Reel</p>
-          <p class="video-title">Woker Achiever — Historia de importaciones</p>
-        </div>
-      </div>
 
-      <div class="video-card fade-up" data-cat="short" data-id="XbL8Q0xrLIk" data-type="short">
-        <div class="thumb-wrap is-short">
-          <img src="https://img.youtube.com/vi/XbL8Q0xrLIk/maxresdefault.jpg" alt="Abrecampo — Reel gastronómico" loading="lazy" onerror="this.src='https://img.youtube.com/vi/XbL8Q0xrLIk/hqdefault.jpg'" />
-          <div class="play-btn"><div class="play-icon"></div></div>
+        <div class="video-card fade-up" data-cat="short" data-id="XbL8Q0xrLIk" data-type="short">
+          <div class="thumb-wrap is-short">
+            <img src="https://img.youtube.com/vi/XbL8Q0xrLIk/maxresdefault.jpg" alt="Abrecampo — Reel gastronómico" loading="lazy" onerror="this.src='https://img.youtube.com/vi/XbL8Q0xrLIk/hqdefault.jpg'" />
+            <div class="play-btn"><div class="play-icon"></div></div>
+          </div>
+          <div class="video-info">
+            <p class="video-tag">Short / Reel</p>
+            <p class="video-title">Abrecampo — Reel gastronómico</p>
+          </div>
         </div>
-        <div class="video-info">
-          <p class="video-tag">Short / Reel</p>
-          <p class="video-title">Abrecampo — Reel gastronómico</p>
-        </div>
-      </div>
 
-      <div class="video-card fade-up" data-cat="short" data-id="dgXWnRdnMIA" data-type="short">
-        <div class="thumb-wrap is-short">
-          <img src="https://img.youtube.com/vi/dgXWnRdnMIA/maxresdefault.jpg" alt="Pablo Lomeli — Reel sobre educación" loading="lazy" onerror="this.src='https://img.youtube.com/vi/dgXWnRdnMIA/hqdefault.jpg'" />
-          <div class="play-btn"><div class="play-icon"></div></div>
+        <div class="video-card fade-up" data-cat="short" data-id="dgXWnRdnMIA" data-type="short">
+          <div class="thumb-wrap is-short">
+            <img src="https://img.youtube.com/vi/dgXWnRdnMIA/maxresdefault.jpg" alt="Pablo Lomeli — Reel sobre educación" loading="lazy" onerror="this.src='https://img.youtube.com/vi/dgXWnRdnMIA/hqdefault.jpg'" />
+            <div class="play-btn"><div class="play-icon"></div></div>
+          </div>
+          <div class="video-info">
+            <p class="video-tag">Short / Reel</p>
+            <p class="video-title">Pablo Lomeli — Reel sobre educación</p>
+          </div>
         </div>
-        <div class="video-info">
-          <p class="video-tag">Short / Reel</p>
-          <p class="video-title">Pablo Lomeli — Reel sobre educación</p>
-        </div>
-      </div>
 
-      <div class="video-card fade-up" data-cat="short" data-id="CIkjCDTcqmg" data-type="short">
-        <div class="thumb-wrap is-short">
-          <img src="https://img.youtube.com/vi/CIkjCDTcqmg/maxresdefault.jpg" alt="Pablo Lomeli — Reel educativo" loading="lazy" onerror="this.src='https://img.youtube.com/vi/CIkjCDTcqmg/hqdefault.jpg'" />
-          <div class="play-btn"><div class="play-icon"></div></div>
+        <div class="video-card fade-up" data-cat="short" data-id="CIkjCDTcqmg" data-type="short">
+          <div class="thumb-wrap is-short">
+            <img src="https://img.youtube.com/vi/CIkjCDTcqmg/maxresdefault.jpg" alt="Pablo Lomeli — Reel educativo" loading="lazy" onerror="this.src='https://img.youtube.com/vi/CIkjCDTcqmg/hqdefault.jpg'" />
+            <div class="play-btn"><div class="play-icon"></div></div>
+          </div>
+          <div class="video-info">
+            <p class="video-tag">Short / Reel</p>
+            <p class="video-title">Pablo Lomeli — Reel educativo</p>
+          </div>
         </div>
-        <div class="video-info">
-          <p class="video-tag">Short / Reel</p>
-          <p class="video-title">Pablo Lomeli — Reel educativo</p>
-        </div>
-      </div>
 
-      <div class="video-card fade-up" data-cat="short" data-id="aCIS0dTAuJ8" data-type="short">
-        <div class="thumb-wrap is-short">
-          <img src="https://img.youtube.com/vi/aCIS0dTAuJ8/maxresdefault.jpg" alt="Woker Achiever — Importaciones y marketing" loading="lazy" onerror="this.src='https://img.youtube.com/vi/aCIS0dTAuJ8/hqdefault.jpg'" />
-          <div class="play-btn"><div class="play-icon"></div></div>
+        <div class="video-card fade-up" data-cat="short" data-id="aCIS0dTAuJ8" data-type="short">
+          <div class="thumb-wrap is-short">
+            <img src="https://img.youtube.com/vi/aCIS0dTAuJ8/maxresdefault.jpg" alt="Woker Achiever — Importaciones y marketing" loading="lazy" onerror="this.src='https://img.youtube.com/vi/aCIS0dTAuJ8/hqdefault.jpg'" />
+            <div class="play-btn"><div class="play-icon"></div></div>
+          </div>
+          <div class="video-info">
+            <p class="video-tag">Short / Reel</p>
+            <p class="video-title">Woker Achiever — Importaciones y marketing</p>
+          </div>
         </div>
-        <div class="video-info">
-          <p class="video-tag">Short / Reel</p>
-          <p class="video-title">Woker Achiever — Importaciones y marketing</p>
-        </div>
-      </div>
 
-      <div class="video-card fade-up" data-cat="short" data-id="Z3XluZ_WV3Q" data-type="short">
-        <div class="thumb-wrap is-short">
-          <img src="https://img.youtube.com/vi/Z3XluZ_WV3Q/maxresdefault.jpg" alt="Enma — Reel motivacional" loading="lazy" onerror="this.src='https://img.youtube.com/vi/Z3XluZ_WV3Q/hqdefault.jpg'" />
-          <div class="play-btn"><div class="play-icon"></div></div>
+        <div class="video-card fade-up" data-cat="short" data-id="Z3XluZ_WV3Q" data-type="short">
+          <div class="thumb-wrap is-short">
+            <img src="https://img.youtube.com/vi/Z3XluZ_WV3Q/maxresdefault.jpg" alt="Enma — Reel motivacional" loading="lazy" onerror="this.src='https://img.youtube.com/vi/Z3XluZ_WV3Q/hqdefault.jpg'" />
+            <div class="play-btn"><div class="play-icon"></div></div>
+          </div>
+          <div class="video-info">
+            <p class="video-tag">Short / Reel</p>
+            <p class="video-title">Enma — Reel motivacional</p>
+          </div>
         </div>
-        <div class="video-info">
-          <p class="video-tag">Short / Reel</p>
-          <p class="video-title">Enma — Reel motivacional</p>
-        </div>
-      </div>
 
-      <div class="video-card fade-up" data-cat="short" data-id="IN1_3ivwk1M" data-type="short">
-        <div class="thumb-wrap is-short">
-          <img src="https://img.youtube.com/vi/IN1_3ivwk1M/maxresdefault.jpg" alt="Woker Achiever — Historia de importaciones" loading="lazy" onerror="this.src='https://img.youtube.com/vi/IN1_3ivwk1M/hqdefault.jpg'" />
-          <div class="play-btn"><div class="play-icon"></div></div>
+        <div class="video-card fade-up" data-cat="short" data-id="IN1_3ivwk1M" data-type="short">
+          <div class="thumb-wrap is-short">
+            <img src="https://img.youtube.com/vi/IN1_3ivwk1M/maxresdefault.jpg" alt="Woker Achiever — Historia de importaciones" loading="lazy" onerror="this.src='https://img.youtube.com/vi/IN1_3ivwk1M/hqdefault.jpg'" />
+            <div class="play-btn"><div class="play-icon"></div></div>
+          </div>
+          <div class="video-info">
+            <p class="video-tag">Short / Reel</p>
+            <p class="video-title">Woker Achiever — Historia de importaciones</p>
+          </div>
         </div>
-        <div class="video-info">
-          <p class="video-tag">Short / Reel</p>
-          <p class="video-title">Woker Achiever — Historia de importaciones</p>
-        </div>
-      </div>
 
-      <div class="video-card fade-up" data-cat="short" data-id="XbL8Q0xrLIk" data-type="short">
-        <div class="thumb-wrap is-short">
-          <img src="https://img.youtube.com/vi/XbL8Q0xrLIk/maxresdefault.jpg" alt="Abrecampo — Reel gastronómico" loading="lazy" onerror="this.src='https://img.youtube.com/vi/XbL8Q0xrLIk/hqdefault.jpg'" />
-          <div class="play-btn"><div class="play-icon"></div></div>
+        <div class="video-card fade-up" data-cat="short" data-id="XbL8Q0xrLIk" data-type="short">
+          <div class="thumb-wrap is-short">
+            <img src="https://img.youtube.com/vi/XbL8Q0xrLIk/maxresdefault.jpg" alt="Abrecampo — Reel gastronómico" loading="lazy" onerror="this.src='https://img.youtube.com/vi/XbL8Q0xrLIk/hqdefault.jpg'" />
+            <div class="play-btn"><div class="play-icon"></div></div>
+          </div>
+          <div class="video-info">
+            <p class="video-tag">Short / Reel</p>
+            <p class="video-title">Abrecampo — Reel gastronómico</p>
+          </div>
         </div>
-        <div class="video-info">
-          <p class="video-tag">Short / Reel</p>
-          <p class="video-title">Abrecampo — Reel gastronómico</p>
-        </div>
-      </div>
 
-      <div class="video-card fade-up" data-cat="short" data-id="dgXWnRdnMIA" data-type="short">
-        <div class="thumb-wrap is-short">
-          <img src="https://img.youtube.com/vi/dgXWnRdnMIA/maxresdefault.jpg" alt="Pablo Lomeli — Reel sobre educación" loading="lazy" onerror="this.src='https://img.youtube.com/vi/dgXWnRdnMIA/hqdefault.jpg'" />
-          <div class="play-btn"><div class="play-icon"></div></div>
+        <div class="video-card fade-up" data-cat="short" data-id="dgXWnRdnMIA" data-type="short">
+          <div class="thumb-wrap is-short">
+            <img src="https://img.youtube.com/vi/dgXWnRdnMIA/maxresdefault.jpg" alt="Pablo Lomeli — Reel sobre educación" loading="lazy" onerror="this.src='https://img.youtube.com/vi/dgXWnRdnMIA/hqdefault.jpg'" />
+            <div class="play-btn"><div class="play-icon"></div></div>
+          </div>
+          <div class="video-info">
+            <p class="video-tag">Short / Reel</p>
+            <p class="video-title">Pablo Lomeli — Reel sobre educación</p>
+          </div>
         </div>
-        <div class="video-info">
-          <p class="video-tag">Short / Reel</p>
-          <p class="video-title">Pablo Lomeli — Reel sobre educación</p>
-        </div>
-      </div>
 
-      <div class="video-card fade-up" data-cat="short" data-id="CIkjCDTcqmg" data-type="short">
-        <div class="thumb-wrap is-short">
-          <img src="https://img.youtube.com/vi/CIkjCDTcqmg/maxresdefault.jpg" alt="Pablo Lomeli — Reel educativo" loading="lazy" onerror="this.src='https://img.youtube.com/vi/CIkjCDTcqmg/hqdefault.jpg'" />
-          <div class="play-btn"><div class="play-icon"></div></div>
+        <div class="video-card fade-up" data-cat="short" data-id="CIkjCDTcqmg" data-type="short">
+          <div class="thumb-wrap is-short">
+            <img src="https://img.youtube.com/vi/CIkjCDTcqmg/maxresdefault.jpg" alt="Pablo Lomeli — Reel educativo" loading="lazy" onerror="this.src='https://img.youtube.com/vi/CIkjCDTcqmg/hqdefault.jpg'" />
+            <div class="play-btn"><div class="play-icon"></div></div>
+          </div>
+          <div class="video-info">
+            <p class="video-tag">Short / Reel</p>
+            <p class="video-title">Pablo Lomeli — Reel educativo</p>
+          </div>
         </div>
-        <div class="video-info">
-          <p class="video-tag">Short / Reel</p>
-          <p class="video-title">Pablo Lomeli — Reel educativo</p>
-        </div>
-      </div>
 
-      <div class="video-card fade-up" data-cat="short" data-id="aCIS0dTAuJ8" data-type="short">
-        <div class="thumb-wrap is-short">
-          <img src="https://img.youtube.com/vi/aCIS0dTAuJ8/maxresdefault.jpg" alt="Woker Achiever — Importaciones y marketing" loading="lazy" onerror="this.src='https://img.youtube.com/vi/aCIS0dTAuJ8/hqdefault.jpg'" />
-          <div class="play-btn"><div class="play-icon"></div></div>
+        <div class="video-card fade-up" data-cat="short" data-id="aCIS0dTAuJ8" data-type="short">
+          <div class="thumb-wrap is-short">
+            <img src="https://img.youtube.com/vi/aCIS0dTAuJ8/maxresdefault.jpg" alt="Woker Achiever — Importaciones y marketing" loading="lazy" onerror="this.src='https://img.youtube.com/vi/aCIS0dTAuJ8/hqdefault.jpg'" />
+            <div class="play-btn"><div class="play-icon"></div></div>
+          </div>
+          <div class="video-info">
+            <p class="video-tag">Short / Reel</p>
+            <p class="video-title">Woker Achiever — Importaciones y marketing</p>
+          </div>
         </div>
-        <div class="video-info">
-          <p class="video-tag">Short / Reel</p>
-          <p class="video-title">Woker Achiever — Importaciones y marketing</p>
-        </div>
-      </div>
 
-      <div class="video-card fade-up" data-cat="short" data-id="Z3XluZ_WV3Q" data-type="short">
-        <div class="thumb-wrap is-short">
-          <img src="https://img.youtube.com/vi/Z3XluZ_WV3Q/maxresdefault.jpg" alt="Enma — Reel motivacional" loading="lazy" onerror="this.src='https://img.youtube.com/vi/Z3XluZ_WV3Q/hqdefault.jpg'" />
-          <div class="play-btn"><div class="play-icon"></div></div>
+        <div class="video-card fade-up" data-cat="short" data-id="Z3XluZ_WV3Q" data-type="short">
+          <div class="thumb-wrap is-short">
+            <img src="https://img.youtube.com/vi/Z3XluZ_WV3Q/maxresdefault.jpg" alt="Enma — Reel motivacional" loading="lazy" onerror="this.src='https://img.youtube.com/vi/Z3XluZ_WV3Q/hqdefault.jpg'" />
+            <div class="play-btn"><div class="play-icon"></div></div>
+          </div>
+          <div class="video-info">
+            <p class="video-tag">Short / Reel</p>
+            <p class="video-title">Enma — Reel motivacional</p>
+          </div>
         </div>
-        <div class="video-info">
-          <p class="video-tag">Short / Reel</p>
-          <p class="video-title">Enma — Reel motivacional</p>
-        </div>
-      </div>
 
-      <div class="video-card fade-up" data-cat="short" data-id="IN1_3ivwk1M" data-type="short">
-        <div class="thumb-wrap is-short">
-          <img src="https://img.youtube.com/vi/IN1_3ivwk1M/maxresdefault.jpg" alt="Woker Achiever — Historia de importaciones" loading="lazy" onerror="this.src='https://img.youtube.com/vi/IN1_3ivwk1M/hqdefault.jpg'" />
-          <div class="play-btn"><div class="play-icon"></div></div>
+        <div class="video-card fade-up" data-cat="short" data-id="IN1_3ivwk1M" data-type="short">
+          <div class="thumb-wrap is-short">
+            <img src="https://img.youtube.com/vi/IN1_3ivwk1M/maxresdefault.jpg" alt="Woker Achiever — Historia de importaciones" loading="lazy" onerror="this.src='https://img.youtube.com/vi/IN1_3ivwk1M/hqdefault.jpg'" />
+            <div class="play-btn"><div class="play-icon"></div></div>
+          </div>
+          <div class="video-info">
+            <p class="video-tag">Short / Reel</p>
+            <p class="video-title">Woker Achiever — Historia de importaciones</p>
+          </div>
         </div>
-        <div class="video-info">
-          <p class="video-tag">Short / Reel</p>
-          <p class="video-title">Woker Achiever — Historia de importaciones</p>
-        </div>
-      </div>
 
-      <div class="video-card fade-up" data-cat="short" data-id="XbL8Q0xrLIk" data-type="short">
-        <div class="thumb-wrap is-short">
-          <img src="https://img.youtube.com/vi/XbL8Q0xrLIk/maxresdefault.jpg" alt="Abrecampo — Reel gastronómico" loading="lazy" onerror="this.src='https://img.youtube.com/vi/XbL8Q0xrLIk/hqdefault.jpg'" />
-          <div class="play-btn"><div class="play-icon"></div></div>
+        <div class="video-card fade-up" data-cat="short" data-id="XbL8Q0xrLIk" data-type="short">
+          <div class="thumb-wrap is-short">
+            <img src="https://img.youtube.com/vi/XbL8Q0xrLIk/maxresdefault.jpg" alt="Abrecampo — Reel gastronómico" loading="lazy" onerror="this.src='https://img.youtube.com/vi/XbL8Q0xrLIk/hqdefault.jpg'" />
+            <div class="play-btn"><div class="play-icon"></div></div>
+          </div>
+          <div class="video-info">
+            <p class="video-tag">Short / Reel</p>
+            <p class="video-title">Abrecampo — Reel gastronómico</p>
+          </div>
         </div>
-        <div class="video-info">
-          <p class="video-tag">Short / Reel</p>
-          <p class="video-title">Abrecampo — Reel gastronómico</p>
-        </div>
-      </div>
 
-      <div class="video-card fade-up" data-cat="short" data-id="dgXWnRdnMIA" data-type="short">
-        <div class="thumb-wrap is-short">
-          <img src="https://img.youtube.com/vi/dgXWnRdnMIA/maxresdefault.jpg" alt="Pablo Lomeli — Reel sobre educación" loading="lazy" onerror="this.src='https://img.youtube.com/vi/dgXWnRdnMIA/hqdefault.jpg'" />
-          <div class="play-btn"><div class="play-icon"></div></div>
+        <div class="video-card fade-up" data-cat="short" data-id="dgXWnRdnMIA" data-type="short">
+          <div class="thumb-wrap is-short">
+            <img src="https://img.youtube.com/vi/dgXWnRdnMIA/maxresdefault.jpg" alt="Pablo Lomeli — Reel sobre educación" loading="lazy" onerror="this.src='https://img.youtube.com/vi/dgXWnRdnMIA/hqdefault.jpg'" />
+            <div class="play-btn"><div class="play-icon"></div></div>
+          </div>
+          <div class="video-info">
+            <p class="video-tag">Short / Reel</p>
+            <p class="video-title">Pablo Lomeli — Reel sobre educación</p>
+          </div>
         </div>
-        <div class="video-info">
-          <p class="video-tag">Short / Reel</p>
-          <p class="video-title">Pablo Lomeli — Reel sobre educación</p>
-        </div>
-      </div>
 
-      <div class="video-card fade-up" data-cat="short" data-id="CIkjCDTcqmg" data-type="short">
-        <div class="thumb-wrap is-short">
-          <img src="https://img.youtube.com/vi/CIkjCDTcqmg/maxresdefault.jpg" alt="Pablo Lomeli — Reel educativo" loading="lazy" onerror="this.src='https://img.youtube.com/vi/CIkjCDTcqmg/hqdefault.jpg'" />
-          <div class="play-btn"><div class="play-icon"></div></div>
+        <div class="video-card fade-up" data-cat="short" data-id="CIkjCDTcqmg" data-type="short">
+          <div class="thumb-wrap is-short">
+            <img src="https://img.youtube.com/vi/CIkjCDTcqmg/maxresdefault.jpg" alt="Pablo Lomeli — Reel educativo" loading="lazy" onerror="this.src='https://img.youtube.com/vi/CIkjCDTcqmg/hqdefault.jpg'" />
+            <div class="play-btn"><div class="play-icon"></div></div>
+          </div>
+          <div class="video-info">
+            <p class="video-tag">Short / Reel</p>
+            <p class="video-title">Pablo Lomeli — Reel educativo</p>
+          </div>
         </div>
-        <div class="video-info">
-          <p class="video-tag">Short / Reel</p>
-          <p class="video-title">Pablo Lomeli — Reel educativo</p>
-        </div>
-      </div>
 
-      <div class="video-card fade-up" data-cat="short" data-id="aCIS0dTAuJ8" data-type="short">
-        <div class="thumb-wrap is-short">
-          <img src="https://img.youtube.com/vi/aCIS0dTAuJ8/maxresdefault.jpg" alt="Woker Achiever — Importaciones y marketing" loading="lazy" onerror="this.src='https://img.youtube.com/vi/aCIS0dTAuJ8/hqdefault.jpg'" />
-          <div class="play-btn"><div class="play-icon"></div></div>
+        <div class="video-card fade-up" data-cat="short" data-id="aCIS0dTAuJ8" data-type="short">
+          <div class="thumb-wrap is-short">
+            <img src="https://img.youtube.com/vi/aCIS0dTAuJ8/maxresdefault.jpg" alt="Woker Achiever — Importaciones y marketing" loading="lazy" onerror="this.src='https://img.youtube.com/vi/aCIS0dTAuJ8/hqdefault.jpg'" />
+            <div class="play-btn"><div class="play-icon"></div></div>
+          </div>
+          <div class="video-info">
+            <p class="video-tag">Short / Reel</p>
+            <p class="video-title">Woker Achiever — Importaciones y marketing</p>
+          </div>
         </div>
-        <div class="video-info">
-          <p class="video-tag">Short / Reel</p>
-          <p class="video-title">Woker Achiever — Importaciones y marketing</p>
-        </div>
-      </div>
 
-      <div class="video-card fade-up" data-cat="short" data-id="Z3XluZ_WV3Q" data-type="short">
-        <div class="thumb-wrap is-short">
-          <img src="https://img.youtube.com/vi/Z3XluZ_WV3Q/maxresdefault.jpg" alt="Enma — Reel motivacional" loading="lazy" onerror="this.src='https://img.youtube.com/vi/Z3XluZ_WV3Q/hqdefault.jpg'" />
-          <div class="play-btn"><div class="play-icon"></div></div>
+        <div class="video-card fade-up" data-cat="short" data-id="Z3XluZ_WV3Q" data-type="short">
+          <div class="thumb-wrap is-short">
+            <img src="https://img.youtube.com/vi/Z3XluZ_WV3Q/maxresdefault.jpg" alt="Enma — Reel motivacional" loading="lazy" onerror="this.src='https://img.youtube.com/vi/Z3XluZ_WV3Q/hqdefault.jpg'" />
+            <div class="play-btn"><div class="play-icon"></div></div>
+          </div>
+          <div class="video-info">
+            <p class="video-tag">Short / Reel</p>
+            <p class="video-title">Enma — Reel motivacional</p>
+          </div>
         </div>
-        <div class="video-info">
-          <p class="video-tag">Short / Reel</p>
-          <p class="video-title">Enma — Reel motivacional</p>
-        </div>
-      </div>
 
-      <div class="video-card fade-up" data-cat="short" data-id="IN1_3ivwk1M" data-type="short">
-        <div class="thumb-wrap is-short">
-          <img src="https://img.youtube.com/vi/IN1_3ivwk1M/maxresdefault.jpg" alt="Woker Achiever — Historia de importaciones" loading="lazy" onerror="this.src='https://img.youtube.com/vi/IN1_3ivwk1M/hqdefault.jpg'" />
-          <div class="play-btn"><div class="play-icon"></div></div>
+        <div class="video-card fade-up" data-cat="short" data-id="IN1_3ivwk1M" data-type="short">
+          <div class="thumb-wrap is-short">
+            <img src="https://img.youtube.com/vi/IN1_3ivwk1M/maxresdefault.jpg" alt="Woker Achiever — Historia de importaciones" loading="lazy" onerror="this.src='https://img.youtube.com/vi/IN1_3ivwk1M/hqdefault.jpg'" />
+            <div class="play-btn"><div class="play-icon"></div></div>
+          </div>
+          <div class="video-info">
+            <p class="video-tag">Short / Reel</p>
+            <p class="video-title">Woker Achiever — Historia de importaciones</p>
+          </div>
         </div>
-        <div class="video-info">
-          <p class="video-tag">Short / Reel</p>
-          <p class="video-title">Woker Achiever — Historia de importaciones</p>
-        </div>
-      </div>
 
-      <div class="video-card fade-up" data-cat="short" data-id="XbL8Q0xrLIk" data-type="short">
-        <div class="thumb-wrap is-short">
-          <img src="https://img.youtube.com/vi/XbL8Q0xrLIk/maxresdefault.jpg" alt="Abrecampo — Reel gastronómico" loading="lazy" onerror="this.src='https://img.youtube.com/vi/XbL8Q0xrLIk/hqdefault.jpg'" />
-          <div class="play-btn"><div class="play-icon"></div></div>
+        <div class="video-card fade-up" data-cat="short" data-id="XbL8Q0xrLIk" data-type="short">
+          <div class="thumb-wrap is-short">
+            <img src="https://img.youtube.com/vi/XbL8Q0xrLIk/maxresdefault.jpg" alt="Abrecampo — Reel gastronómico" loading="lazy" onerror="this.src='https://img.youtube.com/vi/XbL8Q0xrLIk/hqdefault.jpg'" />
+            <div class="play-btn"><div class="play-icon"></div></div>
+          </div>
+          <div class="video-info">
+            <p class="video-tag">Short / Reel</p>
+            <p class="video-title">Abrecampo — Reel gastronómico</p>
+          </div>
         </div>
-        <div class="video-info">
-          <p class="video-tag">Short / Reel</p>
-          <p class="video-title">Abrecampo — Reel gastronómico</p>
         </div>
-      </div>
       </div>
     </div>
     </div>
@@ -1705,66 +1717,26 @@
   }, { threshold: 0.1 });
   document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
-  // Portfolio carousels: auto-scroll infinite loop, pause on hover/touch/drag
+  // Portfolio carousels: pure-CSS transform animation (GPU/compositor thread),
+  // so it stays smooth on iOS Safari instead of fighting the page's native scroll.
+  // JS here only: sets a consistent speed per row, and pauses via a CSS class
+  // while the user is actively touching a card (so taps aren't fighting motion).
   document.querySelectorAll('.carousel-track').forEach(track => {
-    const speed = parseFloat(track.dataset.speed || '0.5');
-    let paused = false;
+    const inner = track.querySelector('.carousel-inner');
+    if (!inner) return;
+    const pxPerSecond = 40;
+    const halfWidth = inner.scrollWidth / 2;
+    const duration = Math.max(halfWidth / pxPerSecond, 8);
+    inner.style.animationDuration = duration + 's';
+
     let resumeTimer = null;
-    let isDragging = false;
-    let dragStartX = 0;
-    let dragStartScroll = 0;
-
-    function loopIfNeeded() {
-      const half = track.scrollWidth / 2;
-      if (track.scrollLeft >= half) track.scrollLeft -= half;
-      else if (track.scrollLeft <= 0) track.scrollLeft += half;
-    }
-
-    function tick() {
-      if (!paused && !isDragging) {
-        track.scrollLeft += speed;
-        loopIfNeeded();
-      }
-      requestAnimationFrame(tick);
-    }
-    requestAnimationFrame(tick);
-
-    track.addEventListener('mouseenter', () => { paused = true; });
-    track.addEventListener('mouseleave', () => { paused = false; });
-
-    track.addEventListener('mousedown', (e) => {
-      isDragging = true;
-      track.classList.add('dragging');
-      dragStartX = e.clientX;
-      dragStartScroll = track.scrollLeft;
-    });
-    window.addEventListener('mousemove', (e) => {
-      if (!isDragging) return;
-      track.scrollLeft = dragStartScroll - (e.clientX - dragStartX);
-    });
-    window.addEventListener('mouseup', () => {
-      if (!isDragging) return;
-      isDragging = false;
-      track.classList.remove('dragging');
-      loopIfNeeded();
-    });
-
-    track.addEventListener('touchstart', (e) => {
-      paused = true;
-      isDragging = true;
+    track.addEventListener('touchstart', () => {
       clearTimeout(resumeTimer);
-      dragStartX = e.touches[0].clientX;
-      dragStartScroll = track.scrollLeft;
-    }, { passive: true });
-    track.addEventListener('touchmove', (e) => {
-      if (!isDragging) return;
-      track.scrollLeft = dragStartScroll - (e.touches[0].clientX - dragStartX);
+      track.classList.add('paused');
     }, { passive: true });
     track.addEventListener('touchend', () => {
-      isDragging = false;
-      loopIfNeeded();
-      resumeTimer = setTimeout(() => { paused = false; }, 2500);
-    });
+      resumeTimer = setTimeout(() => track.classList.remove('paused'), 600);
+    }, { passive: true });
   });
 
   // Modal
